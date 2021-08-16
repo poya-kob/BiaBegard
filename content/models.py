@@ -2,13 +2,40 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from utils import upload_image_path
-
 from .manager import ProductsManager
+
+
+class CategoryType(models.Model):
+    type_name = models.CharField(max_length=150, verbose_name="نام نوع دسته بندی")
+    have_subcategory = models.BooleanField(default=False, verbose_name="زیر دسته بندی داشته / نداشته باشد؟")
+
+    class Meta:
+        verbose_name = "نوع دسته بندی"
+        verbose_name_plural = "انواع دسته بندی"
+
+    def __str__(self):
+        return self.type_name
 
 
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name="نام دسته بندی")
-    subcategory = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT)
+    main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "دسته بندی"
+        verbose_name_plural = "دسته بندی ها"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.type.have_subcategory == False and self.main_category is not None:
+            raise Exception(f"برای نوع دسته{self.type.type_name} نمیتواند زیر دسته داشته باشد.")
+        elif self.main_category.type != self.type:
+            raise Exception("نوع زیر دسته بندی باید با دسته بندی اصلی برابر باشد")
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class Products(models.Model):
@@ -43,6 +70,9 @@ class Products(models.Model):
         elif self.product_price != self.__original_price:
             PricesHistory.objects.create(product=self, product_price=self.product_price)
         super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
 
 
 class PricesHistory(models.Model):
