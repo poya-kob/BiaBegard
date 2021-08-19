@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from utils import upload_image_path
 from .manager import ProductsManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class CategoryType(models.Model):
@@ -44,6 +45,8 @@ class Products(models.Model):
     name = models.CharField(max_length=150, verbose_name="نام")
     image = models.ImageField(upload_to=upload_image_path, verbose_name="کاور اصلی محصول")
     inventory = models.IntegerField(verbose_name="موجودی محصول")
+    short_description = models.TextField(max_length=700, verbose_name="توضیحات کوتاه محصول")
+    full_description = RichTextUploadingField(verbose_name="توضیحات کامل محصول")
     created_time = models.DateTimeField(verbose_name="زمان ایجاد محصول", auto_now_add=True)
     category = models.ManyToManyField(Category)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)

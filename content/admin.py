@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Category, Products, Prices
+from .models import Category, Products
 
 # @admin.register()
