@@ -20,8 +20,10 @@ class CategoryType(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name="نام دسته بندی")
-    type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT)
-    main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    slug = models.SlugField(max_length=150, unique=True, verbose_name="آدرس در URL")
+    type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT, verbose_name="نوع دسته بندی")
+    main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
+                                      verbose_name='دسته بندی والد')
 
     class Meta:
         verbose_name = "دسته بندی"
@@ -32,10 +34,11 @@ class Category(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        if self.type.have_subcategory == False and self.main_category is not None:
-            raise Exception(f"برای نوع دسته{self.type.type_name} نمیتواند زیر دسته داشته باشد.")
-        elif self.main_category.type != self.type:
-            raise Exception("نوع زیر دسته بندی باید با دسته بندی اصلی برابر باشد")
+        if self.main_category is not None:
+            if not self.type.have_subcategory:
+                raise Exception(f" برای نوع دسته {self.type.type_name} نمیتواند زیر دسته داشته باشد. ")
+            elif self.main_category.type != self.type:
+                raise Exception("نوع زیر دسته بندی باید با دسته بندی اصلی برابر باشد")
         super().save(force_insert, force_update, using, update_fields)
 
 
@@ -48,13 +51,17 @@ class Products(models.Model):
     short_description = models.TextField(max_length=700, verbose_name="توضیحات کوتاه محصول")
     full_description = RichTextUploadingField(verbose_name="توضیحات کامل محصول")
     created_time = models.DateTimeField(verbose_name="زمان ایجاد محصول", auto_now_add=True)
-    category = models.ManyToManyField(Category)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category, verbose_name="دسته بندی مربوطه")
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="فروشنده محصول")
     active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
     product_price = models.FloatField(verbose_name="قیمت محصول", )
     off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True)
     off_expired_time = models.DateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
     objects = ProductsManager()
+
+    class Meta:
+        verbose_name = "محصول"
+        verbose_name_plural = "محصولات"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
