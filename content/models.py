@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -54,8 +56,8 @@ class Products(models.Model):
     category = models.ManyToManyField(Category, verbose_name="دسته بندی مربوطه")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="فروشنده محصول")
     active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
-    product_price = models.FloatField(verbose_name="قیمت محصول", )
-    off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True)
+    product_price = models.FloatField(verbose_name="قیمت محصول", default=0)
+    off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True, default=0)
     off_expired_time = models.DateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
     objects = ProductsManager()
 
@@ -70,16 +72,20 @@ class Products(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        if self.off_price <= 0 or self.off_price >= self.product_price:
-            raise Exception(f"{self.off_price} نمیتواند بعوان قیمت با تخفیف محصول قرار گیرد. ")
-        elif self.product_price <= 0:
+        if self.inventory <= 0:
+            raise Exception("موجودی محصول نمیتواند صفر یا کمتر از آن باشد")
+        if self.product_price <= 0:
             raise Exception(f"{self.product_price} نمیتواند بعوان قیمت محصول قرار گیرد. ")
+        if self.off_price < 0 or self.off_price >= self.product_price:
+            raise Exception(f"{self.off_price} نمیتواند بعوان قیمت با تخفیف محصول قرار گیرد. ")
+        if self.off_expired_time > datetime.now():
+            raise Exception("زمان پایان تخفیف نمیتواند امروز یا الآن باشد")
 
-        if self.off_price != self.__original_off_price:
+        super().save(force_insert, force_update, using, update_fields)
+        if self.off_price != self.__original_off_price > 0:
             PricesHistory.objects.create(product=self, product_price=self.off_price)
         elif self.product_price != self.__original_price:
             PricesHistory.objects.create(product=self, product_price=self.product_price)
-        super().save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
         return self.name
