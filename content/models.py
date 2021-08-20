@@ -90,3 +90,18 @@ class PricesHistory(models.Model):
                                 related_name="product_price_history")
     product_price = models.FloatField(verbose_name="قیمت محصول", default=0)
     modified_date = models.DateField(verbose_name="زمان ثبت تغییرات قیمت", auto_now_add=True)
+
+
+class Tags(models.Model):
+    title = models.CharField(max_length=120, verbose_name='عنوان')
+    slug = models.SlugField(verbose_name='عنوان در url', null=True)
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ثبت')
+    active = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
+    products = models.ManyToManyField(Products, blank=True, verbose_name='محصولات')
+
+    class Meta:
+        verbose_name = 'تگ/برچسب'
+        verbose_name_plural = 'تگ ها / برچسب ها'
+
+    def __str__(self):
+        return self.title

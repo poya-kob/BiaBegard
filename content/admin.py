@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, CategoryType, Products
+from .models import Category, CategoryType, Products, Tags
 
 
 # @admin.register(Category)
@@ -11,6 +11,13 @@ class CategoryInLine(admin.StackedInline):
 class CategoryTypeAdmin(admin.ModelAdmin):
     inlines = [CategoryInLine, ]
     list_display = ['__str__', 'have_subcategory']
+
+
+@admin.register(Tags)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'active']
+    list_editable = ['active']
+    sortable_by = ['created_by', 'active']
 
 
 @admin.register(Products)
