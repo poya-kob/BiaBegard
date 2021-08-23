@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, CategoryType, Products, Tags
+from .models import Category, CategoryType, Products, Tags, ProductsGalleries
 
 
 # @admin.register(Category)
@@ -25,3 +25,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'inventory', 'created_by', 'active']
     list_editable = ['active']
     sortable_by = ['inventory', 'created_by', 'active']
+
+
+@admin.register(ProductsGalleries)
+class ProductsGalleriesAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'title', 'product', 'active']
+    list_editable = ['active']

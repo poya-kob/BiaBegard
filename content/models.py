@@ -9,7 +9,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class CategoryType(models.Model):
-    type_name = models.CharField(max_length=150, verbose_name="نام نوع دسته بندی")
+    type_name = models.CharField(max_length=150, verbose_name="نام نوع دسته بندی", unique=True)
     have_subcategory = models.BooleanField(default=False, verbose_name="زیر دسته بندی داشته / نداشته باشد؟")
 
     class Meta:
@@ -21,8 +21,7 @@ class CategoryType(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=150, verbose_name="نام دسته بندی")
-    slug = models.SlugField(max_length=150, unique=True, verbose_name="آدرس در URL")
+    name = models.CharField(max_length=150, verbose_name="نام دسته بندی", unique=True)
     type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT, verbose_name="نوع دسته بندی")
     main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                                       verbose_name='دسته بندی والد')
@@ -100,7 +99,6 @@ class PricesHistory(models.Model):
 
 class Tags(models.Model):
     title = models.CharField(max_length=120, verbose_name='عنوان')
-    slug = models.SlugField(verbose_name='عنوان در url', null=True)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ثبت')
     active = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
     products = models.ManyToManyField(Products, blank=True, verbose_name='محصولات')
@@ -108,6 +106,16 @@ class Tags(models.Model):
     class Meta:
         verbose_name = 'تگ/برچسب'
         verbose_name_plural = 'تگ ها / برچسب ها'
+
+    def __str__(self):
+        return self.title
+
+
+class ProductsGalleries(models.Model):
+    title = models.CharField(max_length=120, verbose_name="عنوان عکس")
+    image = models.ImageField(verbose_name="تصویر محصول")
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name="محصول مربوطه")
+    active = models.BooleanField(default=False, verbose_name="فعال / غیر فعال")
 
     def __str__(self):
         return self.title
