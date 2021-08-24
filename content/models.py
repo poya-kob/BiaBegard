@@ -113,7 +113,7 @@ class Tags(models.Model):
 
 class ProductsGalleries(models.Model):
     title = models.CharField(max_length=120, verbose_name="عنوان عکس")
-    image = models.ImageField(verbose_name="تصویر محصول")
+    image = models.ImageField(upload_to=upload_image_path,verbose_name="تصویر محصول")
     product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name="محصول مربوطه")
     active = models.BooleanField(default=False, verbose_name="فعال / غیر فعال")
 
