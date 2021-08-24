@@ -19,3 +19,5 @@ def upload_image_path(instance, filename):
     new_name = f"{name}{ext}"
     if type(instance).__name__ == "Products":
         return f"product/{date.year}/{date.month}/{date.day}/{new_name}"
+    elif type(instance).__name__ == "ProductsGalleries":
+        return f"Products_Galleries/{date.year}/{date.month}/{date.day}/{new_name}"
