@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from utils import upload_image_path
 from .manager import ProductsManager
 from ckeditor_uploader.fields import RichTextUploadingField
+from django_jalali.db import models as jmodels
 
 
 class CategoryType(models.Model):
@@ -25,6 +26,8 @@ class Category(models.Model):
     type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT, verbose_name="نوع دسته بندی")
     main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
                                       verbose_name='دسته بندی والد')
+
+    # calender = jmodels.jDateTimeField(null=True)
 
     class Meta:
         verbose_name = "دسته بندی"
@@ -51,13 +54,14 @@ class Products(models.Model):
     inventory = models.IntegerField(verbose_name="موجودی محصول")
     short_description = models.TextField(max_length=700, verbose_name="توضیحات کوتاه محصول")
     full_description = RichTextUploadingField(verbose_name="توضیحات کامل محصول")
-    created_time = models.DateTimeField(verbose_name="زمان ایجاد محصول", auto_now_add=True)
+    created_time = jmodels.jDateTimeField(verbose_name="زمان ایجاد محصول", auto_now_add=True)
     category = models.ManyToManyField(Category, verbose_name="دسته بندی مربوطه")
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="فروشنده محصول")
-    active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
+    supplier = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="فروشنده محصول")
     product_price = models.FloatField(verbose_name="قیمت محصول", default=0)
     off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True, default=0)
-    off_expired_time = models.DateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
+    off_expired_time = jmodels.jDateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
+    like_count = models.IntegerField(default=0, verbose_name="تعداد لایک های محصول")
+    active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
     objects = ProductsManager()
 
     class Meta:
@@ -71,6 +75,8 @@ class Products(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        if self.off_price and self.off_expired_time is None:
+            raise Exception("تاریخ انقضا برای پایان تخفیف تعیین کنید.")
         if self.inventory <= 0:
             raise Exception("موجودی محصول نمیتواند صفر یا کمتر از آن باشد")
         if self.product_price <= 0:
@@ -99,7 +105,7 @@ class PricesHistory(models.Model):
 
 class Tags(models.Model):
     title = models.CharField(max_length=120, verbose_name='عنوان')
-    created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ثبت')
+    created_time = jmodels.jDateTimeField(auto_now_add=True, verbose_name='زمان ثبت')
     active = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
     products = models.ManyToManyField(Products, blank=True, verbose_name='محصولات')
 
@@ -113,9 +119,13 @@ class Tags(models.Model):
 
 class ProductsGalleries(models.Model):
     title = models.CharField(max_length=120, verbose_name="عنوان عکس")
-    image = models.ImageField(upload_to=upload_image_path,verbose_name="تصویر محصول")
+    image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر محصول")
     product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name="محصول مربوطه")
     active = models.BooleanField(default=False, verbose_name="فعال / غیر فعال")
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "گالری محصول"
+        verbose_name_plural = "گالری محصولات"

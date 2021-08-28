@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor_uploader',
     'ckeditor',
+    'django_jalali',
     # my apps
     'content'
 ]
