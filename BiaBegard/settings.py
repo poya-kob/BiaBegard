@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_jalali',
     # my apps
-    'content'
+    'content',
+    'comment'
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
