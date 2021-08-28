@@ -36,14 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'financial',
-    'shipping',
     'ckeditor_uploader',
     'ckeditor',
     'django_jalali',
     # my apps
     'content'
-
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
