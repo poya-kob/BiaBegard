@@ -22,10 +22,9 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Products)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'inventory', 'supplier', 'active','like_count']
+    list_display = ['__str__', 'inventory', 'supplier', 'active']
     list_editable = ['active']
-    sortable_by = ['inventory', 'supplier', 'active', 'like_count']
-    readonly_fields = ['like_count']
+    sortable_by = ['inventory', 'supplier', 'active']
     exclude = []
 
     def get_exclude(self, request, obj=None):

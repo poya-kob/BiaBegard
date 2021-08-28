@@ -60,7 +60,6 @@ class Products(models.Model):
     product_price = models.FloatField(verbose_name="قیمت محصول", default=0)
     off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True, default=0)
     off_expired_time = jmodels.jDateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
-    like_count = models.IntegerField(default=0, verbose_name="تعداد لایک های محصول")
     active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
     objects = ProductsManager()
 
