@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'shipping',
     'ckeditor_uploader',
     'ckeditor',
+    'django_jalali',
     # my apps
     'content'
 
