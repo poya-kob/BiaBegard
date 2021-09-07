@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-from financial.models import Orders
+# from financial.models import Orders
 
 
 class Post(models.Model):
@@ -29,5 +29,5 @@ class Post(models.Model):
 
     post = models.CharField(max_length=20, choices=type_of_shipping)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time_recived = models.CharField(max_length=2, choices=day_division)
+    time_recived = models.CharField(max_length=3, choices=day_division)
     date_recived = models.DateField()

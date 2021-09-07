@@ -1,5 +1,5 @@
 from django.db import models
-from product.models import Product
+from content .models import Products
 from django.contrib.auth.models import User
 from shipping.models import Post
 from datetime import datetime
@@ -14,7 +14,7 @@ class Offs(models.Model):
     off_expire = models.DateTimeField(verbose_name="تاریخ انقضاء کد")
 
     def save(self, *args, **kwargs):
-        if self.off_percantage < 0 or self.off_percantage > 100:
+        if self.off_percentage < 0 or self.off_percentage > 100:
             raise Exception("درصد خفیف نمیتواند از ۰ کمتر و از ۱۰۰ بیشتر باشد.")
         if self.number_off <= 0:
             raise Exception('تعداد دفعات استفاده از کد تخفیف نمیتوان ۰ یا کمتر باشد.')
@@ -22,7 +22,7 @@ class Offs(models.Model):
 
 
 class Orders(models.Model):
-    user = models.ForeignKey(User, verbose_name="مالک سبد")
+    user = models.ForeignKey(User, verbose_name="مالک سبد", on_delete=models.CASCADE)
     is_payed = models.BooleanField(default=False, verbose_name="پرداخت شده/نشده")
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name='تاریخ پرداخت')
     shipping = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='پست شونده')
@@ -54,12 +54,13 @@ class Orders(models.Model):
         else:
             raise Exception(' این کد قابل استفاده نیست ')
 
+
 class OrderDetails(models.Model):
     # username = models.ForeignKey("User.Client", on_delete=models.CASCADE, verbose_name="نام")
-    product = models.ForeignKey(Product, verbose_name="محصول")
+    product = models.ForeignKey(Products, verbose_name="محصول", on_delete=models.CASCADE)
     number_of_products = models.IntegerField(verbose_name="تعداد محصول")
     order = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name="سبد خرید")
 
     @property
     def total_price_product(self):
-        return self.product.Price * self.number_of_products
+        return self.product.product_price * self.number_of_products
