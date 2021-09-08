@@ -5,8 +5,7 @@ from utils import upload_image_path
 
 
 class Addresses(models.Model):
-    pass
-
+     province = models.CharField(max_length=50)
 
 class CommonUsersField(User):
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر کاربر", null=True, blank=True)
