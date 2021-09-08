@@ -1,5 +1,6 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
+{% load tags %}
 
 {% block content %}
     <div class="push-up blocks-spacer">
@@ -17,46 +18,29 @@
                     <div class="underlined">
                         <h3><span class="light">بر اساس فیلتر</span> خرید کنید</h3>
                     </div>
-
-                    <!--  ==========  -->
-                    <!--  = Categories =  -->
-                    <!--  ==========  -->
-                    <div class="accordion-group" id="tourStep2">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" href="#filterOne">دسته بندی ها <b
-                                    class="caret"></b></a>
-                        </div>
-                        <div id="filterOne" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                                <a href="#" data-target=".filter--accessories" class="selectable"><i class="box"></i>
-                                    لوازم شخصی</a>
-                                <a href="#" data-target=".filter--bags, .filter--hats" class="selectable"><i
-                                        class="box"></i>کیف و کلاه</a>
-                                <a href="#" data-target=".filter--polo-shirts" class="selectable"><i class="box"></i> تی
-                                    شرت های پولو</a>
-                                <a href="#" data-target=".filter--shirts" class="selectable"><i class="box"></i> پیراهن</a>
-                                <a href="#" data-target=".filter--shoes, .filter--boots, .filter--trainers"
-                                   class="selectable"><i class="box"></i> کفش اسپورت و رسمی</a>
-                                <a href="#" data-target=".filter--shorts" class="selectable"><i class="box"></i> لوازم
-                                    جانبی</a>
-                                <a href="#" data-target=".filter--suits, .filter--blazers" class="selectable"><i
-                                        class="box"></i> لباس رسمی</a>
-                                <a href="#" data-target=".filter--sunglasses" class="selectable"><i class="box"></i>
-                                    عینک آفتابی</a>
-                                <a href="#" data-target=".filter--swimwear" class="selectable"><i class="box"></i> لباس
-                                    شنا</a>
-                                <a href="#" data-target=".filter--trousers, .filter--chinos" class="selectable"><i
-                                        class="box"></i> شلوار</a>
-                                <a href="#" data-target=".filter--t-shirts, .filter--vests" class="selectable"><i
-                                        class="box"></i> تی شرت و جلیقه</a>
-                                <a href="#" data-target=".filter--bags" class="selectable"><i class="box"></i> کیف</a>
-                                <a href="#" data-target=".filter--underwear, .filter--socks" class="selectable"><i
-                                        class="box"></i> زیر پوش و جوراب</a>
-
+                    {% for category in categories %}
+                        <!--  ==========  -->
+                        <!--  = Categories =  -->
+                        <!--  ==========  -->
+                        <div class="accordion-group" id="tourStep2">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#filterOne">{{ category.type }}<b
+                                        class="caret"></b></a>
                             </div>
-                        </div>
-                    </div> <!-- /categories -->
+                            <div id="filterOne" class="accordion-body collapse in">
 
+                                <div class="accordion-inner">
+                                    <a href="#" data-target=".filter--accessories" class="selectable"><i
+                                            class="box"></i>
+                                        {{ category.name }}</a>
+                                    {% if category.main_category.count > 0 %}
+                                        {% tree_structure category %}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div> <!-- /categories -->
+                    {% endfor %}
                     <!--  ==========  -->
                     <!--  = Prices slider =  -->
                     <!--  ==========  -->
