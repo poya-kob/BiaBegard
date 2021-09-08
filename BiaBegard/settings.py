@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'content',
     'financial',
     'shipping'
+
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
