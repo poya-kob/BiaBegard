@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Customers,Suppliers
-from .form import RegisterForm
+from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm,RegisterForm
