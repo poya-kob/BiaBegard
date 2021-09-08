@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from .models import Customers,Suppliers
 from .form import RegisterForm
 
 # Create your views here.
@@ -11,10 +11,11 @@ def register_page(request):
 
     register_form = RegisterForm(request.POST or None)
     if register_form.is_valid():
-        username = register_form.cleaned_data.get('user_name')
-        email = register_form.cleaned_data.get('email')
-        password = register_form.cleaned_data.get('password')
-        User.objects.create_user(username=username, email=email, password=password)
+        # username = register_form.cleaned_data.get('user_name')
+        # email = register_form.cleaned_data.get('email')
+        # password = register_form.cleaned_data.get('password')
+        # User.objects.create_user(username=username, email=email, password=password)
+        #TODO REGISTER_USER
         return redirect('/login')
 
     context = {
