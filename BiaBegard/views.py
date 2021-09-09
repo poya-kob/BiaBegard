@@ -1,16 +1,18 @@
 from django.shortcuts import render
+
 from content.models import Category
 from account.forms import LoginForm, RegisterForm
+
+
+def home_page(request):
+    return render(request, 'home.html')
 
 
 # header code behind
 
 def header(request, *args, **kwargs):
-
-
     context = {
         'categories': Category.objects.all(),
-
 
     }
 

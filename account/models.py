@@ -12,7 +12,7 @@ class Addresses(models.Model):
 
 class CommonUsersField(User):
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر کاربر", null=True, blank=True)
-    address = models.ForeignKey(Addresses, on_delete=models.CASCADE)
+    address = models.ForeignKey(Addresses, on_delete=models.CASCADE, null=True)
     phone = models.PositiveIntegerField(null=True)
 
     class Meta:
@@ -20,7 +20,7 @@ class CommonUsersField(User):
 
 
 class Suppliers(CommonUsersField):
-    store_name = models.CharField(max_length=200)
+    store_name = models.CharField(max_length=200, null=True)
 
 
 class Customers(CommonUsersField):

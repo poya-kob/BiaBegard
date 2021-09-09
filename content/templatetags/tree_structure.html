@@ -1,12 +1,13 @@
 {% load tags %}
+<<<<<<< HEAD
+<ul>
 {% for sub in subs %}
-    <li class="dropdown-toggle">
     <a href="#" data-target=".filter--accessories" class="selectable">
         <i class="box"></i>
         {{ sub.name }}</a>
     {% if sub.parent.count > 0 %}
         {% tree_structure sub %}
     {% endif %}
-    </li>>
+
 {% endfor %}
 
