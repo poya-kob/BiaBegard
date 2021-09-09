@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 # from financial.models import Orders
 
@@ -31,3 +32,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time_recived = models.CharField(max_length=3, choices=day_division)
     date_recived = models.DateField()
+
+    class Meta:
+        verbose_name = 'نحوه ارسال'
+        verbose_name_plural = 'نحوه ارسال'

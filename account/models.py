@@ -9,6 +9,10 @@ class Addresses(models.Model):
     city = models.CharField(max_length=50)
     full_address = models.CharField(max_length=200)
 
+    class Meta:
+        verbose_name = "آدرس"
+        verbose_name_plural = "آدرس ها"
+
 
 class CommonUsersField(User):
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر کاربر", null=True, blank=True)
@@ -22,6 +26,12 @@ class CommonUsersField(User):
 class Suppliers(CommonUsersField):
     store_name = models.CharField(max_length=200, null=True)
 
+    class Meta:
+        verbose_name = "فروشنده"
+        verbose_name_plural = "فروشنده ها"
+
 
 class Customers(CommonUsersField):
-    pass
+    class Meta:
+        verbose_name = "مشتری"
+        verbose_name_plural = "مشتری ها"
