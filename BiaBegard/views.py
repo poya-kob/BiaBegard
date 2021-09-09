@@ -7,10 +7,8 @@ from account.forms import LoginForm, RegisterForm
 
 def header(request, *args, **kwargs):
 
-
     context = {
         'categories': Category.objects.all(),
-
 
     }
 
@@ -19,8 +17,6 @@ def header(request, *args, **kwargs):
 
 # footer code behind
 def footer(request, *args, **kwargs):
-    login_form = LoginForm(request.POST or None)
-    register_form = RegisterForm(request.POST or None)
 
     context = {
         'login_form': LoginForm(request.POST or None),

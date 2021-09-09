@@ -15,12 +15,14 @@ class CommonUsersField(User):
     address = models.ForeignKey(Addresses, on_delete=models.CASCADE)
     phone = models.PositiveIntegerField(null=True)
 
+
     class Meta:
         abstract = True
 
 
 class Suppliers(CommonUsersField):
     store_name = models.CharField(max_length=200)
+
 
 
 class Customers(CommonUsersField):

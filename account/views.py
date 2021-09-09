@@ -3,7 +3,7 @@ from .models import Customers,Suppliers
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm, RegisterForm
 
 
 def login_page(request):
@@ -15,6 +15,7 @@ def login_page(request):
         'login_form': login_form,
         'title': 'ورود | بیابگرد'
     }
+
     if login_form.is_valid():
         username = login_form.cleaned_data.get('user_name')
         password = login_form.cleaned_data.get('password')
@@ -22,12 +23,13 @@ def login_page(request):
         if user is not None:
             login(request, user)
             return redirect(request.META.get('HTTP_REFERER'))
-    return render(request, 'account/login.html', context)
+    return render(request, 'shared/header.html', context)
 
 
 def logout_page(request):
     logout(request)
     return redirect("/")
+
 
 def register_page(request):
 
