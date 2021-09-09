@@ -1,6 +1,7 @@
 {% load static %}
-<div class="master-wrapper">
 
+
+{% load tags %}
 <!--  ==========  -->
 <!--  = Header =  -->
 <!--  ==========  -->
@@ -62,8 +63,12 @@
                         <a href="#"><span class="zocial-apple"></span></a>
                     </div>
                     <div class="register">
-                        <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
-                        <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'logout' %}" role="button">خروج</a>
+                        {% else %}
+                            <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
+                            <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
+                        {% endif %}
                     </div>
                 </div>
             </div> <!-- /social icons -->
@@ -136,13 +141,21 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="features.html" class="dropdown-toggle">امکانات <b class="caret"></b> </a>
+                                <a href="features.html" class="dropdown-toggle">دسته بندی <b class="caret"></b> </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="icons.html">آیکن ها</a></li>
+
+                                    {% for category in categories %}
+                                        <li class="dropdown"><a href="icons.html">{{ category.name }}</a></li>
+                                        {% if category.main_category.count > 0 %}
+                                            {% tree_structure category %}
+                                        {% endif %}
+                                    {% endfor %}
+
+
                                     <li class="dropdown">
                                         <a href="features.html" class="dropdown-toggle"><i
                                                 class="icon-caret-left pull-right visible-desktop"></i> همه امکانات</a>
-                                        <ul class="dropdown-menu">
+                                        <ul class=dropdown-menu>
                                             <li><a href="features.html#headings">سرخط ها</a></li>
                                             <li><a href="features.html#alertBoxes">جعبه های هشدار</a></li>
                                             <li><a href="features.html#tabs">تب ها</a></li>
@@ -260,7 +273,8 @@
                                 </div>
                             </div>
                             <div class="proceed">
-                                <a href="{% static "checkout-step-1.html"%}" class="btn btn-danger pull-right bold higher">تصویه
+                                <a href="{% static "checkout-step-1.html" %}"
+                                   class="btn btn-danger pull-right bold higher">تصویه
                                     حساب <i class="icon-shopping-cart"></i></a>
                                 <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
                                     بیشتر</a></small>
