@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from content.models import Category
+from content.models import CategoryType
 from account.forms import LoginForm, RegisterForm
 
 
@@ -12,7 +12,7 @@ def home_page(request):
 
 def header(request, *args, **kwargs):
     context = {
-        'categories': Category.objects.all(),
+        'categories': CategoryType.objects.all()
 
     }
 
