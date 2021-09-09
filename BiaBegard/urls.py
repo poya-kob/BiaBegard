@@ -17,12 +17,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from .views import header,footer
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', include("content.urls")),
-    path('ckeditor/', include("ckeditor_uploader.urls"))
+    path('ckeditor/', include("ckeditor_uploader.urls")),
+    path('header', header, name='header'),
+    path('footer', footer, name='footer')
 
 ]
 if settings.DEBUG:

@@ -180,26 +180,7 @@
     </div>
     <div class="modal-body">
         <form method="post" action="#">
-            <div class="control-group">
-                <label class="control-label hidden shown-ie8" for="inputEmail">نام کاربری</label>
-                <div class="controls">
-                    <input type="text" class="input-block-level" id="inputEmail" placeholder="Username">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label hidden shown-ie8" for="inputPassword">رمز عبور</label>
-                <div class="controls">
-                    <input type="password" class="input-block-level" id="inputPassword" placeholder="Password">
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <label class="checkbox">
-                        <input type="checkbox">
-                        مرا به خاطر بسپار
-                    </label>
-                </div>
-            </div>
+          {{ login_form }}
             <button type="submit" class="btn btn-primary input-block-level bold higher">
                 ورود
             </button>
@@ -219,25 +200,10 @@
     </div>
     <div class="modal-body">
         <form method="post" action="#">
-            <div class="control-group">
-                <label class="control-label hidden shown-ie8" for="inputUsernameRegister">نام کاربری</label>
-                <div class="controls">
-                    <input type="text" class="input-block-level" id="inputUsernameRegister" placeholder="Username">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label hidden shown-ie8" for="inputEmailRegister">ایمیل</label>
-                <div class="controls">
-                    <input type="email" class="input-block-level" id="inputEmailRegister" placeholder="Email">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label hidden shown-ie8" for="inputPasswordRegister">رمز عبور</label>
-                <div class="controls">
-                    <input type="password" class="input-block-level" id="inputPasswordRegister"
-                           placeholder="Password">
-                </div>
-            </div>
+           {{ register_form.username }}
+           {{ register_form.email }}
+           {{ register_form.password }}
+           {{ register_form.confirm_password }}
             <button type="submit" class="btn btn-danger input-block-level bold higher">
                 ثبت نام
             </button>

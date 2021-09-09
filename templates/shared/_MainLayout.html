@@ -1,4 +1,5 @@
 {% load static %}
+{% load render_partial %}
 <!DOCTYPE html>
 {#<!--[if lt IE 8]>#}
 {#<html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->#}
@@ -19,13 +20,18 @@
 </head>
 
 <body>
-{% include 'shared/header.html' %}
+{% render_partial 'header' %}
+
+
 
 {% block content %}
 
 {% endblock %}
 
-{% include 'shared/footer.html' %}
+
+
+{% render_partial 'footer' %}
+
 </body>
 {% include 'shared/_FoterRefrences.html' %}
 </html>

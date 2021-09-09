@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags %}
 <!--  ==========  -->
 <!--  = Header =  -->
 <!--  ==========  -->
@@ -134,13 +135,21 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="features.html" class="dropdown-toggle">امکانات <b class="caret"></b> </a>
+                                <a href="features.html" class="dropdown-toggle">دسته بندی <b class="caret"></b> </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="icons.html">آیکن ها</a></li>
+
+                                    {% for category in categories %}
+                                        <li class="dropdown"><a  href="icons.html">{{ category.name }}</a></li>
+                                        {% if category.main_category.count > 0 %}
+                                            {% tree_structure category %}
+                                        {% endif %}
+                                    {% endfor %}
+
+
                                     <li class="dropdown">
                                         <a href="features.html" class="dropdown-toggle"><i
                                                 class="icon-caret-left pull-right visible-desktop"></i> همه امکانات</a>
-                                        <ul class="dropdown-menu">
+                                        <ul class=dropdown-menu>
                                             <li><a href="features.html#headings">سرخط ها</a></li>
                                             <li><a href="features.html#alertBoxes">جعبه های هشدار</a></li>
                                             <li><a href="features.html#tabs">تب ها</a></li>
