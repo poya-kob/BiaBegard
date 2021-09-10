@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
-from content.models import CategoryType
 from account.forms import LoginForm, RegisterForm
+
+from content.models import Category
 
 
 def home_page(request):
@@ -9,11 +10,9 @@ def home_page(request):
 
 
 # header code behind
-
 def header(request, *args, **kwargs):
     context = {
-        'categories': CategoryType.objects.all()
-
+        'categories': Category.objects.all()
     }
 
     return render(request, 'shared/header.html', context)
