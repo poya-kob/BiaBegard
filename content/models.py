@@ -9,25 +9,9 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django_jalali.db import models as jmodels
 
 
-class CategoryType(models.Model):
-    type_name = models.CharField(max_length=150, verbose_name="نام نوع دسته بندی", unique=True)
-    have_subcategory = models.BooleanField(default=False, verbose_name="زیر دسته بندی داشته / نداشته باشد؟")
-
-    class Meta:
-        verbose_name = "نوع دسته بندی"
-        verbose_name_plural = "انواع دسته بندی"
-
-    def __str__(self):
-        return self.type_name
-
-
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name="نام دسته بندی", unique=True)
-    type = models.ForeignKey(CategoryType, on_delete=models.RESTRICT, verbose_name="نوع دسته بندی")
-    main_category = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
-                                      verbose_name='دسته بندی والد')
-
-    # calender = jmodels.jDateTimeField(null=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='دسته بندی والد')
 
     class Meta:
         verbose_name = "دسته بندی"
@@ -36,14 +20,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if self.main_category is not None:
-            if not self.type.have_subcategory:
-                raise Exception(f" برای نوع دسته {self.type.type_name} نمیتواند زیر دسته داشته باشد. ")
-            elif self.main_category.type != self.type:
-                raise Exception("نوع زیر دسته بندی باید با دسته بندی اصلی برابر باشد")
-        super().save(force_insert, force_update, using, update_fields)
+
+class Brands(models.Model):
+    name = models.CharField(max_length=150, verbose_name="نام برند", unique=True)
+
+    class Meta:
+        verbose_name = "برند"
+        verbose_name_plural = "برند ها"
+
+    def __str__(self):
+        return self.name
 
 
 class Products(models.Model):
@@ -55,10 +41,11 @@ class Products(models.Model):
     short_description = models.TextField(max_length=700, verbose_name="توضیحات کوتاه محصول")
     full_description = RichTextUploadingField(verbose_name="توضیحات کامل محصول")
     created_time = jmodels.jDateTimeField(verbose_name="زمان ایجاد محصول", auto_now_add=True)
-    category = models.ManyToManyField(Category, verbose_name="دسته بندی مربوطه")
+    category = models.ForeignKey(Category, verbose_name="دسته بندی مربوطه", on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brands, verbose_name='نام برند', on_delete=models.CASCADE)
     supplier = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="فروشنده محصول")
-    product_price = models.FloatField(verbose_name="قیمت محصول", default=0)
-    off_price = models.FloatField(verbose_name="قیمت با تخفیف", null=True, blank=True, default=0)
+    product_price = models.PositiveIntegerField(verbose_name="قیمت محصول", default=0)
+    off_price = models.PositiveIntegerField(verbose_name="قیمت با تخفیف", null=True, blank=True, default=0)
     off_expired_time = jmodels.jDateTimeField(verbose_name="زمان انقضاء تخفیف", null=True, blank=True)
     active = models.BooleanField(default=False, verbose_name="فعال/غیرفعال")
     objects = ProductsManager()

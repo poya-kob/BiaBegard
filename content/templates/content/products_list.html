@@ -3,257 +3,283 @@
 {% load tags %}
 
 {% block content %}
-    <div class="push-up blocks-spacer">
-        <div class="row">
+    <div class="darker-stripe">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="index.html">وبمارکت</a>
+                        </li>
+                        <li><span class="icon-chevron-right"></span></li>
+                        <li>
+                            <a href="shop.html">فروشگاه</a>
+                        </li>
+                        <li><span class="icon-chevron-right"></span></li>
+                        <li>
+                            <a href="shop.html">قالب بندی اصلی</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!--  ==========  -->
-            <!--  = Sidebar =  -->
-            <!--  ==========  -->
-            <aside class="span3 left-sidebar" id="tourStep1">
-                <div class="sidebar-item sidebar-filters" id="sidebarFilters">
+    <div class="container">
+        <div class="push-up blocks-spacer">
+            <div class="row">
 
-                    <!--  ==========  -->
-                    <!--  = Sidebar Title =  -->
-                    <!--  ==========  -->
-                    <div class="underlined">
-                        <h3><span class="light">بر اساس فیلتر</span> خرید کنید</h3>
-                    </div>
-                    {% for category in categories %}
+                <!--  ==========  -->
+                <!--  = Sidebar =  -->
+                <!--  ==========  -->
+                <aside class="span3 left-sidebar" id="tourStep1">
+                    <div class="sidebar-item sidebar-filters" id="sidebarFilters">
+
+                        <!--  ==========  -->
+                        <!--  = Sidebar Title =  -->
+                        <!--  ==========  -->
+                        <div class="underlined">
+                            <h3><span class="light">بر اساس فیلتر</span> خرید کنید</h3>
+                        </div>
+
                         <!--  ==========  -->
                         <!--  = Categories =  -->
                         <!--  ==========  -->
                         <div class="accordion-group" id="tourStep2">
                             <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" href="#filterOne">{{ category.type }}<b
+                                <a class="accordion-toggle" data-toggle="collapse" href="#filterOne">دسته بندی ها <b
                                         class="caret"></b></a>
                             </div>
+
                             <div id="filterOne" class="accordion-body collapse in">
-
                                 <div class="accordion-inner">
-                                    <a href="#" data-target=".filter--accessories" class="selectable"><i
-                                            class="box"></i>
-                                        {{ category.name }}</a>
-                                    {% if category.main_category.count > 0 %}
-                                        {% tree_structure category %}
-                                    {% endif %}
-
+                                    {% for category in categories %}
+                                        {% if category.parent %}
+                                            <a href="#" data-target=".filter--accessories" class="selectable"><i
+                                                    class="box"></i>
+                                                {{ category.name}}</a>
+{#                                            {{ category.name.split|join:'-' }}#}
+                                        {% else %}
+                                            <a class="accordion-toggle" href="#filterOne">
+                                                <b> {{ category.name }}</b></a>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div> <!-- /categories -->
-                    {% endfor %}
-                    <!--  ==========  -->
-                    <!--  = Prices slider =  -->
-                    <!--  ==========  -->
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" href="#filterPrices">قیمت <b
-                                    class="caret"></b></a>
-                        </div>
-                        <div id="filterPrices" class="accordion-body in collapse">
-                            <div class="accordion-inner with-slider">
-                                <div class="jqueryui-slider-container">
-                                    <div id="pricesRange"
-                                         class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
-                                         aria-disabled="false">
-                                        <div class="ui-slider-range ui-widget-header ui-corner-all"
-                                             style="left: 0%; width: 100%;"></div>
-                                        <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"
-                                           style="left: 0%;"></a><a
-                                            class="ui-slider-handle ui-state-default ui-corner-all" href="#"
-                                            style="left: 100%;"></a></div>
+                        <!--  ==========  -->
+                        <!--  = Prices slider =  -->
+                        <!--  ==========  -->
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#filterPrices">قیمت <b
+                                        class="caret"></b></a>
+                            </div>
+                            <div id="filterPrices" class="accordion-body in collapse">
+                                <div class="accordion-inner with-slider">
+                                    <div class="jqueryui-slider-container">
+                                        <div id="pricesRange"
+                                             class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+                                             aria-disabled="false">
+                                            <div class="ui-slider-range ui-widget-header ui-corner-all"
+                                                 style="left: 0%; width: 100%;"></div>
+                                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"
+                                               style="left: 0%;"></a><a
+                                                class="ui-slider-handle ui-state-default ui-corner-all" href="#"
+                                                style="left: 100%;"></a></div>
+                                    </div>
+                                    <input type="text" data-initial="432" class="max-val pull-right" disabled="">
+                                    <input type="text" data-initial="99" class="min-val" disabled="">
                                 </div>
-                                <input type="text" data-initial="432" class="max-val pull-right" disabled="">
-                                <input type="text" data-initial="99" class="min-val" disabled="">
                             </div>
-                        </div>
-                    </div> <!-- /prices slider -->
+                        </div> <!-- /prices slider -->
 
-                    <!--  ==========  -->
-                    <!--  = Size filter =  -->
-                    <!--  ==========  -->
-                    <div class="accordion-group" id="tourStep3">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterTwo">سایز <b
-                                    class="caret"></b></a>
-                        </div>
-                        <div id="filterTwo" class="accordion-body collapse">
-                            <div class="accordion-inner">
-                                <a href="#" data-target="xs" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> XS</a>
-                                <a href="#" data-target="s" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> S</a>
-                                <a href="#" data-target="m" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> M</a>
-                                <a href="#" data-target="l" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> L</a>
-                                <a href="#" data-target="xl" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> XL</a>
-                                <a href="#" data-target="xxl" data-type="size" class="selectable detailed"><i
-                                        class="box"></i> XXL</a>
-
+                        <!--  ==========  -->
+                        <!--  = Size filter =  -->
+                        <!--  ==========  -->
+                        <div class="accordion-group" id="tourStep3">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterTwo">سایز <b
+                                        class="caret"></b></a>
                             </div>
-                        </div>
-                    </div> <!-- /size filter -->
+                            <div id="filterTwo" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <a href="#" data-target="xs" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> XS</a>
+                                    <a href="#" data-target="s" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> S</a>
+                                    <a href="#" data-target="m" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> M</a>
+                                    <a href="#" data-target="l" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> L</a>
+                                    <a href="#" data-target="xl" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> XL</a>
+                                    <a href="#" data-target="xxl" data-type="size" class="selectable detailed"><i
+                                            class="box"></i> XXL</a>
 
-                    <!--  ==========  -->
-                    <!--  = Color filter =  -->
-                    <!--  ==========  -->
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterThree">رنگ <b
-                                    class="caret"></b></a>
-                        </div>
-                        <div id="filterThree" class="accordion-body collapse">
-                            <div class="accordion-inner">
-                                <a href="#" data-target="red" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> قرمز</a>
-                                <a href="#" data-target="green" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> سبز</a>
-                                <a href="#" data-target="blue" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> آبی</a>
-                                <a href="#" data-target="pink" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> صورتی</a>
-                                <a href="#" data-target="purple" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> بنفش</a>
-                                <a href="#" data-target="orange" data-type="color" class="selectable detailed"><i
-                                        class="box"></i> نارنجی</a>
-
+                                </div>
                             </div>
-                        </div>
-                    </div> <!-- /color filter -->
+                        </div> <!-- /size filter -->
 
-                    <!--  ==========  -->
-                    <!--  = Brand filter =  -->
-                    <!--  ==========  -->
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterFour">برند <b
-                                    class="caret"></b></a>
-                        </div>
-                        <div id="filterFour" class="accordion-body collapse">
-                            <div class="accordion-inner">
-                                <a href="#" data-target="s-oliver" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> S. Oliver</a>
-                                <a href="#" data-target="nike" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> Nike</a>
-                                <a href="#" data-target="naish" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> Naish</a>
-                                <a href="#" data-target="adidas" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> Adidas</a>
-                                <a href="#" data-target="puma" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> Puma</a>
-                                <a href="#" data-target="shred" data-type="brand" class="selectable detailed"><i
-                                        class="box"></i> Shred</a>
-
+                        <!--  ==========  -->
+                        <!--  = Color filter =  -->
+                        <!--  ==========  -->
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterThree">رنگ <b
+                                        class="caret"></b></a>
                             </div>
-                        </div>
-                    </div> <!-- /brand filter -->
+                            <div id="filterThree" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <a href="#" data-target="red" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> قرمز</a>
+                                    <a href="#" data-target="green" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> سبز</a>
+                                    <a href="#" data-target="blue" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> آبی</a>
+                                    <a href="#" data-target="pink" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> صورتی</a>
+                                    <a href="#" data-target="purple" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> بنفش</a>
+                                    <a href="#" data-target="orange" data-type="color" class="selectable detailed"><i
+                                            class="box"></i> نارنجی</a>
 
-                    <a href="#" class="remove-filter" id="removeFilters" style="display: none;"><span
-                            class="icon-ban-circle"></span> حذف همه فیلتر ها</a>
-
-                </div>
-            </aside> <!-- /sidebar -->
-
-            <!--  ==========  -->
-            <!--  = Main content =  -->
-            <!--  ==========  -->
-            <section class="span9">
-
-                <!--  ==========  -->
-                <!--  = Title =  -->
-                <!--  ==========  -->
-                <div class="underlined push-down-20">
-                    <div class="row">
-                        <div class="span5">
-                            <h3><span class="light">همه</span> محصولات</h3>
-                        </div>
-                        <div class="span4">
-                            <div class="form-inline sorting-by" id="tourStep4">
-                                <label for="isotopeSorting" class="black-clr">چینش :</label>
-                                <select id="isotopeSorting" class="span3">
-                                    <option value="{&quot;sortBy&quot;:&quot;price&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
-                                        بر اساس قیمت (کم به زیاد) ↑
-                                    </option>
-                                    <option value="{&quot;sortBy&quot;:&quot;price&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
-                                        بر اساس قیمت (زیاد به کم) ↓
-                                    </option>
-                                    <option value="{&quot;sortBy&quot;:&quot;name&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
-                                        بر اساس نام (صعودی) ↑
-                                    </option>
-                                    <option value="{&quot;sortBy&quot;:&quot;name&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
-                                        بر اساس نام (نزولی) ↓
-                                    </option>
-                                    <option value="{&quot;sortBy&quot;:&quot;popularity&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
-                                        بر اساس محبوبیت (کم به زیاد) ↑
-                                    </option>
-                                    <option value="{&quot;sortBy&quot;:&quot;popularity&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
-                                        بر اساس محبوبیت (زیاد به کم) ↓
-                                    </option>
-                                </select>
+                                </div>
                             </div>
-                        </div>
+                        </div> <!-- /color filter -->
+
+                        <!--  ==========  -->
+                        <!--  = Brand filter =  -->
+                        <!--  ==========  -->
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterFour">برند <b
+                                        class="caret"></b></a>
+                            </div>
+                            <div id="filterFour" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <a href="#" data-target="s-oliver" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> S. Oliver</a>
+                                    <a href="#" data-target="nike" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> Nike</a>
+                                    <a href="#" data-target="naish" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> Naish</a>
+                                    <a href="#" data-target="adidas" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> Adidas</a>
+                                    <a href="#" data-target="puma" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> Puma</a>
+                                    <a href="#" data-target="shred" data-type="brand" class="selectable detailed"><i
+                                            class="box"></i> Shred</a>
+
+                                </div>
+                            </div>
+                        </div> <!-- /brand filter -->
+
+                        <a href="#" class="remove-filter" id="removeFilters" style="display: none;"><span
+                                class="icon-ban-circle"></span> حذف همه فیلتر ها</a>
+
                     </div>
-                </div> <!-- /title -->
+                </aside> <!-- /sidebar -->
 
                 <!--  ==========  -->
-                <!--  = Products =  -->
+                <!--  = Main content =  -->
                 <!--  ==========  -->
-                <div class="row popup-products">
-                    <div id="isotopeContainer" class="isotope-container isotope"
-                         style="position: relative; overflow: hidden; height: 3738px;">
+                <section class="span9">
 
-                        {% for product in products %}
+                    <!--  ==========  -->
+                    <!--  = Title =  -->
+                    <!--  ==========  -->
+                    <div class="underlined push-down-20">
+                        <div class="row">
+                            <div class="span5">
+                                <h3><span class="light">همه</span> محصولات</h3>
+                            </div>
+                            <div class="span4">
+                                <div class="form-inline sorting-by" id="tourStep4">
+                                    <label for="isotopeSorting" class="black-clr">چینش :</label>
+                                    <select id="isotopeSorting" class="span3">
+                                        <option value="{&quot;sortBy&quot;:&quot;price&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
+                                            بر اساس قیمت (کم به زیاد) ↑
+                                        </option>
+                                        <option value="{&quot;sortBy&quot;:&quot;price&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
+                                            بر اساس قیمت (زیاد به کم) ↓
+                                        </option>
+                                        <option value="{&quot;sortBy&quot;:&quot;name&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
+                                            بر اساس نام (صعودی) ↑
+                                        </option>
+                                        <option value="{&quot;sortBy&quot;:&quot;name&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
+                                            بر اساس نام (نزولی) ↓
+                                        </option>
+                                        <option value="{&quot;sortBy&quot;:&quot;popularity&quot;, &quot;sortAscending&quot;:&quot;true&quot;}">
+                                            بر اساس محبوبیت (کم به زیاد) ↑
+                                        </option>
+                                        <option value="{&quot;sortBy&quot;:&quot;popularity&quot;, &quot;sortAscending&quot;:&quot;false&quot;}">
+                                            بر اساس محبوبیت (زیاد به کم) ↓
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /title -->
 
-                            <!--  ==========  -->
-                            <!--  = Single Product =  -->
-                            <!--  ==========  -->
-                            <div class="span3 filter--blazers isotope-item" data-price="1567" data-popularity="2"
-                                 data-size="xs|s|m|xl" data-color="pink" data-brand="adidas"
-                                 style="position: absolute; left: 0px; top: 0px; transform: translate3d(300px, 3133px, 0px);">
-                                <div class="product">
+                    <!--  ==========  -->
+                    <!--  = Products =  -->
+                    <!--  ==========  -->
+                    <div class="row popup-products">
+                        <div id="isotopeContainer" class="isotope-container isotope"
+                             style="position: relative; overflow: hidden; height: 3738px;">
 
-                                    <div class="stamp red">تمام شد</div>
+                            {% for product in products %}
 
-                                    <div class="product-img">
-                                        <div class="picture">
-                                            <img alt=""
-                                                 src={{ product.image.url }}
-                                                         width="540" height="374">
-                                            <div class="img-overlay">
-                                                <a class="btn more btn-primary" href="#">توضیحات بیشتر</a>
-                                                <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a>
+                                <!--  ==========  -->
+                                <!--  = Single Product =  -->
+                                <!--  ==========  -->
+                                <div class="span3 filter--blazers isotope-item" data-price="1567" data-popularity="2"
+                                     data-size="xs|s|m|xl" data-color="pink" data-brand="adidas"
+                                     style="position: absolute; left: 0px; top: 0px; transform: translate3d(300px, 3133px, 0px);">
+                                    <div class="product">
+
+                                        <div class="stamp red">تمام شد</div>
+
+                                        <div class="product-img">
+                                            <div class="picture">
+                                                <img alt=""
+                                                     src={{ product.image.url }}
+                                                             width="540" height="374">
+                                                <div class="img-overlay">
+                                                    <a class="btn more btn-primary" href="#">توضیحات بیشتر</a>
+                                                    <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="main-titles no-margin">
-                                        <h4 class="title">{{ product.name }}</h4>
-                                        {% if product.off_price %}
-                                            <h5 class="no-margin isotope--title">{{ product.off_price }}</h5>
-                                        {% else %}
-                                            <h5 class="no-margin isotope--title">{{ product.product_price }}</h5>
-                                        {% endif %}
-                                    </div>
-                                    <p class="center-align stars">
-                                        <span class="icon-star stars-clr"></span>
-                                        <span class="icon-star stars-clr"></span>
-                                        <span class="icon-star"></span>
-                                        <span class="icon-star"></span>
-                                        <span class="icon-star"></span>
+                                        <div class="main-titles no-margin">
+                                            <h4 class="title">{{ product.name }}</h4>
+                                            {% if product.off_price %}
+                                                <h5 class="no-margin isotope--title">{{ product.off_price }}</h5>
+                                            {% else %}
+                                                <h5 class="no-margin isotope--title">{{ product.product_price }}</h5>
+                                            {% endif %}
+                                        </div>
+                                        <p class="center-align stars">
+                                            <span class="icon-star stars-clr"></span>
+                                            <span class="icon-star stars-clr"></span>
+                                            <span class="icon-star"></span>
+                                            <span class="icon-star"></span>
+                                            <span class="icon-star"></span>
 
-                                    </p>
-                                </div>
-                            </div> <!-- /single product -->
+                                        </p>
+                                    </div>
+                                </div> <!-- /single product -->
 
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-                <hr>
-            </section> <!-- /main content -->
+                    <hr>
+                </section> <!-- /main content -->
+            </div>
         </div>
+
     </div>
-
-
 
 
 {% endblock %}

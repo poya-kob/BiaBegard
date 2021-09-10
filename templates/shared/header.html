@@ -111,17 +111,11 @@
                                 <a class="dropdown-toggle"> دسته بندی <b class="caret"></b> </a>
                                 <ul class="dropdown-menu">
 
-                                    {% for category in categories %}
-                                        {% if category.main_category.count > 0 %}
-                                            {% menu_structure category %}
-                                        {% else %}
-                                            <li><a href="icons.html">{{ category.name }} - {{ category.main_category }}</a></li>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </ul>
 
                             </li>
-                            <li><a href="about-us.html"></a></li>
+                            <li><a href="about-us.html">درباره ما</a></li>
                             <li><a href="contact.html">تماس با ما</a></li>
                         </ul>
 
