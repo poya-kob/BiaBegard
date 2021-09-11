@@ -23,6 +23,7 @@ class Category(models.Model):
 
 class Brands(models.Model):
     name = models.CharField(max_length=150, verbose_name="نام برند", unique=True)
+    image = models.ImageField(upload_to=upload_image_path, verbose_name="لوگوی برند", null=True)
 
     class Meta:
         verbose_name = "برند"
@@ -63,14 +64,14 @@ class Products(models.Model):
              update_fields=None):
         if self.off_price and self.off_expired_time is None:
             raise Exception("تاریخ انقضا برای پایان تخفیف تعیین کنید.")
+        if self.off_expired_time and self.off_expired_time > datetime.now():
+            raise Exception("زمان پایان تخفیف نمیتواند امروز یا الآن باشد")
         if self.inventory <= 0:
             raise Exception("موجودی محصول نمیتواند صفر یا کمتر از آن باشد")
         if self.product_price <= 0:
             raise Exception(f"{self.product_price} نمیتواند بعوان قیمت محصول قرار گیرد. ")
         if self.off_price < 0 or self.off_price >= self.product_price:
             raise Exception(f"{self.off_price} نمیتواند بعوان قیمت با تخفیف محصول قرار گیرد. ")
-        if self.off_expired_time > datetime.now():
-            raise Exception("زمان پایان تخفیف نمیتواند امروز یا الآن باشد")
 
         super().save(force_insert, force_update, using, update_fields)
         if self.off_price != self.__original_off_price > 0:
@@ -106,11 +107,15 @@ class Tags(models.Model):
 class ProductsGalleries(models.Model):
     title = models.CharField(max_length=120, verbose_name="عنوان عکس")
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر محصول")
-    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name="محصول مربوطه")
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name="محصول مربوطه", related_name='gallery')
     active = models.BooleanField(default=False, verbose_name="فعال / غیر فعال")
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.product.gallery.all() > 2:
+            raise Exception('بیشتر از ۳ عکس نمیتوان برای محصول انتخواب کرد.')
 
     class Meta:
         verbose_name = "گالری محصول"

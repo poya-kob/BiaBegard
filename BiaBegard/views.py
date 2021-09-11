@@ -12,7 +12,7 @@ def home_page(request):
 # header code behind
 def header(request, *args, **kwargs):
     context = {
-        'categories': Category.objects.all()
+        'categories': Category.objects.all().order_by('parent')
     }
 
     return render(request, 'shared/header.html', context)
