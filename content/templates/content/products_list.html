@@ -247,7 +247,7 @@
                                                      src={{ product.image.url }}
                                                              width="540" height="374">
                                                 <div class="img-overlay">
-                                                    <a class="btn more btn-primary" href="#">توضیحات بیشتر</a>
+                                                    <a class="btn more btn-primary" href={% url 'product-detail' product.id product.name.split|join:'-' %}>توضیحات بیشتر</a>
                                                     <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a>
                                                 </div>
                                             </div>
