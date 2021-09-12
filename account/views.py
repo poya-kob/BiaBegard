@@ -43,7 +43,9 @@ def register_page(request):
         if register_form.cleaned_data.get('be_supplier'):
             Suppliers.objects.create_user(username=username, email=email, password=password, phone=phone, is_staff=True,
                                           is_active=False)
-        Customers.objects.create_user(username=username, email=email, password=password, phone=phone, is_staff=False,
-                                      is_active=True)
+        else:
+            Customers.objects.create_user(username=username, email=email, password=password, phone=phone,
+                                          is_staff=False,
+                                          is_active=True)
     # todo show success message and redirect to the next url
     return redirect('/')

@@ -1,17 +1,28 @@
 from django.shortcuts import render
 
-from content.models import Category
 from account.forms import LoginForm, RegisterForm
+
+from content.models import Category
+
+from slider.models import Slider
 
 
 def home_page(request):
-    return render(request, 'home.html')
+    sliders = Slider.objects.all()
 
+    context = {
+        'sliders':sliders
+    }
+
+    return render(request, 'home.html', context)
+
+
+
+# header code behind
 
 def header(request, *args, **kwargs):
     context = {
-        'categories': Category.objects.all(),
-
+        'categories': Category.objects.all().order_by('parent')
     }
 
     return render(request, 'shared/header.html', context)

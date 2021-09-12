@@ -1,16 +1,15 @@
 from django.contrib import admin
-from .models import Category, CategoryType, Products, Tags, ProductsGalleries
+from .models import Brands, Category, Products, Tags, ProductsGalleries
 
 
-# @admin.register(Category)
-class CategoryInLine(admin.StackedInline):
+@admin.register(Brands)
+class BrandsAdmin(admin.ModelAdmin):
     model = Category
 
 
-@admin.register(CategoryType)
-class CategoryTypeAdmin(admin.ModelAdmin):
-    inlines = [CategoryInLine, ]
-    list_display = ['__str__', 'have_subcategory']
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'parent']
 
 
 @admin.register(Tags)

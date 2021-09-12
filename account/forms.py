@@ -17,7 +17,8 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(
         widget=forms.TextInput(attrs={'placeholder': "ایمیل خود را وارد کنید", 'class': "input-block-level"}))
     phone = forms.IntegerField(
-        widget=forms.NumberInput(attrs={'placeholder': "شماره تلفن خود را وارد کنید", 'class': "input-block-level"}))
+        widget=forms.NumberInput(
+            attrs={'placeholder': "شماره تلفن خود را وارد کنید", 'type': 'tel', 'class': "input-block-level"}))
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': "پسوورد خود را وارد کنید", 'class': "input-block-level"}))
     confirm_password = forms.CharField(

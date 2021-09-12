@@ -1,5 +1,5 @@
 from django.db import models
-from content .models import Products
+from content.models import Products
 from django.contrib.auth.models import User
 from shipping.models import Post
 from datetime import datetime
@@ -19,6 +19,10 @@ class Offs(models.Model):
         if self.number_off <= 0:
             raise Exception('تعداد دفعات استفاده از کد تخفیف نمیتوان ۰ یا کمتر باشد.')
         super().save(self, *args, **kwargs)
+
+    class Meta:
+        verbose_name = "کد تخفیف"
+        verbose_name_plural = "کد های تخفیف"
 
 
 class Orders(models.Model):
@@ -56,7 +60,6 @@ class Orders(models.Model):
 
 
 class OrderDetails(models.Model):
-    # username = models.ForeignKey("User.Client", on_delete=models.CASCADE, verbose_name="نام")
     product = models.ForeignKey(Products, verbose_name="محصول", on_delete=models.CASCADE)
     number_of_products = models.IntegerField(verbose_name="تعداد محصول")
     order = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name="سبد خرید")
@@ -64,3 +67,7 @@ class OrderDetails(models.Model):
     @property
     def total_price_product(self):
         return self.product.product_price * self.number_of_products
+
+    class Meta:
+        verbose_name = 'جزئیات پرداخت'
+        verbose_name_plural = 'جزئیات پرداخت'
