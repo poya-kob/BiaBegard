@@ -1,4 +1,6 @@
 {% load static %}
+
+
 {% load tags %}
 <!--  ==========  -->
 <!--  = Header =  -->
@@ -61,8 +63,12 @@
                         <a href="#"><span class="zocial-apple"></span></a>
                     </div>
                     <div class="register">
-                        <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
-                        <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'logout' %}" role="button">خروج</a>
+                        {% else %}
+                            <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
+                            <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
+                        {% endif %}
                     </div>
                 </div>
             </div> <!-- /social icons -->
@@ -139,7 +145,7 @@
                                 <ul class="dropdown-menu">
 
                                     {% for category in categories %}
-                                        <li class="dropdown"><a  href="icons.html">{{ category.name }}</a></li>
+                                        <li class="dropdown"><a href="icons.html">{{ category.name }}</a></li>
                                         {% if category.main_category.count > 0 %}
                                             {% tree_structure category %}
                                         {% endif %}
@@ -240,7 +246,7 @@
                                          alt="cart item"/>
                                 </div>
                                 <div class="desc">
-                                    <strong><a href="product.html">کیف پول مردانه</a></strong>
+                                    <strong><a href="{% static "product.html" %}">کیف پول مردانه</a></strong>
                                     <span class="light-clr qty">
                                     تعداد : 1
                                     &nbsp;
@@ -267,7 +273,8 @@
                                 </div>
                             </div>
                             <div class="proceed">
-                                <a href="checkout-step-1.html" class="btn btn-danger pull-right bold higher">تصویه
+                                <a href="{% static "checkout-step-1.html" %}"
+                                   class="btn btn-danger pull-right bold higher">تصویه
                                     حساب <i class="icon-shopping-cart"></i></a>
                                 <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
                                     بیشتر</a></small>

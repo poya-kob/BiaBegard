@@ -1,12 +1,14 @@
 from django.shortcuts import render
+
 from content.models import Category
 from account.forms import LoginForm, RegisterForm
 
 
-# header code behind
+def home_page(request):
+    return render(request, 'home.html')
+
 
 def header(request, *args, **kwargs):
-
     context = {
         'categories': Category.objects.all(),
 
@@ -17,7 +19,6 @@ def header(request, *args, **kwargs):
 
 # footer code behind
 def footer(request, *args, **kwargs):
-
     context = {
         'login_form': LoginForm(request.POST or None),
         'register_form': RegisterForm(request.POST or None)

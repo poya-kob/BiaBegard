@@ -19,19 +19,21 @@
     {% include 'shared/_HeaderRefrences.html' %}
 </head>
 
-<body>
-{% render_partial 'header' %}
+<body class="">
+
+<div class="master-wrapper">
+
+    {% render_partial 'header' %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% render_partial 'footer' %}
+</div>
 
 
-
-{% block content %}
-
-{% endblock %}
-
-
-
-{% render_partial 'footer' %}
+{% include 'shared/_FoterRefrences.html' %}
 
 </body>
-{% include 'shared/_FoterRefrences.html' %}
 </html>
