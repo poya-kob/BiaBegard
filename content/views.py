@@ -9,15 +9,13 @@ class ProductsList(ListView):
     model = Products
     template_name = 'content/products_list.html'
     context_object_name = 'products'
-    paginate_by = 6
+    paginate_by = 10
     queryset = Products.objects.get_active_product()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsList, self).get_context_data()
-        # context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.select_related('parent')
 
-        context['price_ave'] = Products.objects.aggregate(price_average=Avg('product_price'))["price_average"]
-        print(context)
         return context
 
 
@@ -36,7 +34,7 @@ class ProductSearch(ListView):
     model = Products
     template_name = 'content/products_list.html'
     context_object_name = 'products'
-    paginate_by = 6
+    paginate_by = 10
 
     def get_queryset(self):
         request = self.request
