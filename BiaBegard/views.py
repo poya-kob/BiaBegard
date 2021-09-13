@@ -11,11 +11,10 @@ def home_page(request):
     sliders = Slider.objects.all()
 
     context = {
-        'sliders':sliders
+        'sliders': sliders
     }
 
     return render(request, 'home.html', context)
-
 
 
 # header code behind

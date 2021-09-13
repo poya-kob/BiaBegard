@@ -94,7 +94,7 @@ class Tags(models.Model):
     title = models.CharField(max_length=120, verbose_name='عنوان')
     created_time = jmodels.jDateTimeField(auto_now_add=True, verbose_name='زمان ثبت')
     active = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
-    products = models.ManyToManyField(Products, blank=True, verbose_name='محصولات')
+    products = models.ManyToManyField(Products, related_name='tag', blank=True, verbose_name='محصولات')
 
     class Meta:
         verbose_name = 'تگ/برچسب'
