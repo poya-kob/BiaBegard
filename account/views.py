@@ -12,6 +12,7 @@ def login_page(request):
     context = {
         'login_form': login_form,
     }
+
     if login_form.is_valid():
         username = login_form.cleaned_data.get('username')
         password = login_form.cleaned_data.get('password')
@@ -19,6 +20,7 @@ def login_page(request):
         if user is not None:
             login(request, user)
             return redirect(request.META.get('HTTP_REFERER'))
+
     return redirect('/')
 
 

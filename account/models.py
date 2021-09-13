@@ -19,6 +19,7 @@ class CommonUsersField(User):
     address = models.ForeignKey(Addresses, on_delete=models.CASCADE, null=True)
     phone = models.PositiveIntegerField(null=True)
 
+
     class Meta:
         abstract = True
 
@@ -29,6 +30,7 @@ class Suppliers(CommonUsersField):
     class Meta:
         verbose_name = "فروشنده"
         verbose_name_plural = "فروشنده ها"
+
 
 
 class Customers(CommonUsersField):
