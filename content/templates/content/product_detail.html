@@ -1,31 +1,34 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
+{% load tz %}
+{% now "SHORT_DATETIME_FORMAT" as current%}
+
 {% block content %}
 
     <!--  ==========  -->
     <!--  = Breadcrumbs =  -->
     <!--  ==========  -->
-    <div class="darker-stripe">
+    <div class="darker-stripe" xmlns="http://www.w3.org/1999/html">
         <div class="container">
             <div class="row">
                 <div class="span12">
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="index.html">وبمارکت</a>
-                        </li>
-                        <li><span class="icon-chevron-right"></span></li>
-                        <li>
-                            <a href="shop.html">فروشگاه</a>
-                        </li>
-                        <li><span class="icon-chevron-right"></span></li>
-                        <li>
-                            <a href="#">{{ products_detail.name }}</a>
-                        </li>
-                        <li><span class="icon-chevron-right"></span></li>
-                        <li>
-                            <a href="product.html">تی شرت مردانه کلاه دار</a>
-                        </li>
-                    </ul>
+                    {#                    <ul class="breadcrumb">#}
+                    {#                        <li>#}
+                    {#                            <a href="index.html">وبمارکت</a>#}
+                    {#                        </li>#}
+                    {#                        <li><span class="icon-chevron-right"></span></li>#}
+                    {#                        <li>#}
+                    {#                            <a href="shop.html">فروشگاه</a>#}
+                    {#                        </li>#}
+                    {#                        <li><span class="icon-chevron-right"></span></li>#}
+                    {#                        <li>#}
+                    {#                            <a href="#">{{ products_detail.name }}</a>#}
+                    {#                        </li>#}
+                    {#                        <li><span class="icon-chevron-right"></span></li>#}
+                    {#                        <li>#}
+                    {#                            <a href="product.html">تی شرت مردانه کلاه دار</a>#}
+                    {#                        </li>#}
+                    {#                    </ul>#}
                 </div>
             </div>
         </div>
@@ -36,18 +39,15 @@
     <!--  ==========  -->
     <div class="container">
         <div class="push-up top-equal blocks-spacer">
-
             <!--  ==========  -->
             <!--  = Product =  -->
             <!--  ==========  -->
             <div class="row blocks-spacer">
-
                 <!--  ==========  -->
                 <!--  = Preview Images =  -->
                 <!--  ==========  -->
                 <div class="span5">
                     <div class="product-preview">
-
                         <div class="picture">
                             <img src={{ products_detail.image.url }} alt={{ products_detail.name.split|join:'-' }}width="940"
                                  height="940"
@@ -62,38 +62,36 @@
                                             height="940"/></a>
                                 </div>
                             {% endfor %}
-
                         </div>
                     </div>
                 </div>
-
                 <!--  ==========  -->
                 <!--  = Title and short desc =  -->
                 <!--  ==========  -->
+
                 <div class="span7">
                     <div class="product-title">
                         <h1 class="name"><span class="light">{{ products_detail.name }}</span></h1>
                         <div class="meta">
                             <br class="tag">
-
-                            {% if products_detail.off_price %} <span> {{ products_detail.off_price }}   قیمت با تخفیف
-                                </span></br>
-                                <del> {{ products_detail.product_price }}</del>
+                            {% if  products_detail.off_price and products_detail.off_expired_time > products_detail.off_expired_time.now %}
+                                <h4 class="title">
+                                    <span class="striked">{{ products_detail.product_price }}</span>
+                                    <span class="red-clr"> قیمت با تخفیف{{ products_detail.off_price }}</span>
+                                </h4>
                             {% else %}
                                 {{ products_detail.product_price }}
                             {% endif %}
                             <span class="stock">
                                 {% if products_detail.inventory %} <span class="btn btn-success"> موجود </span>
 
-                                {% else %}<span class="btn btn-danger">اتمام موجودی</span>{% endif %}
-
+                                {% else %}<span class="btn btn-danger">تمام موجودی</span>{% endif %}
                             </span>
                         </div>
                     </div>
                     <div class="product-description">
                         <p> {{ products_detail.short_description }} </p>
                         <hr/>
-
                         <!--  ==========  -->
                         <!--  = Add to cart form =  -->
                         <!--  ==========  -->
@@ -124,9 +122,7 @@
                                 خرید
                             </button>
                         </form>
-
                         <hr/>
-
                         <!--  ==========  -->
                         <!--  = Share buttons =  -->
                         <!--  ==========  -->
@@ -134,7 +130,7 @@
                             <div class="pull-right social-networks">
                                 <!-- AddThis Button BEGIN -->
                                 <div class="addthis_toolbox addthis_default_style ">
-                                    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                                    <a class="addthis_button_facebook_like fb:like:layout= button_count"></a>
                                     <a class="addthis_button_tweet"></a>
                                     <a class="addthis_button_pinterest_pinit"></a>
                                     <a class="addthis_counter addthis_pill_style"></a>
@@ -144,12 +140,13 @@
                                 <!-- AddThis Button END -->
                             </div>
                             با دوستان خود به اشتراک بگذارید :
-                        </div>
 
+                            <br>
+                            {{ products_detail.off_expired_time.now }}
+                        </div>
                     </div>
                 </div>
             </div>
-
             <!--  ==========  -->
             <!--  = Tabs with more info =  -->
             <!--  ==========  -->
@@ -165,28 +162,30 @@
                         <li>
                             <a href="#tab-3" data-toggle="tab">نظرات</a>
                         </li>
-                        <li>
-                            <a href="#tab-4" data-toggle="tab">جزئیات ارسال</a>
-                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="fade in tab-pane active" id="tab-1">
                             <h3>توضیحات محصول</h3>
+                            {{ products_detail.full_description|safe }}
                         </div>
-                        {{ products_detail.full_description|safe }}
+                        <div class="fade in tab-pane active" id="tab-2">
+
+                        </div>
+                        <div class="fade in tab-pane active" id="tab-3">
+
+                        </div>
+
 
                     </div>
                 </div>
             </div>
         </div>
     </div> <!-- /container -->
-
     <!--  ==========  -->
     <!--  = Related Products =  -->
     <!--  ==========  -->
     <div class="boxed-area no-bottom">
         <div class="container">
-
             <!--  ==========  -->
             <!--  = Title =  -->
             <!--  ==========  -->
@@ -197,141 +196,55 @@
                     </div>
                 </div>
             </div>
-
             <!--  ==========  -->
             <!--  = Related products =  -->
             <!--  ==========  -->
             <div class="row popup-products">
-
-
                 <!--  ==========  -->
                 <!--  = Products =  -->
                 <!--  ==========  -->
-                <div class="span3">
-                    <div class="product">
-                        <div class="product-img">
-                            <div class="picture">
-                                <img src="{% static "images/dummy/products/product-1.jpg" %}" alt="" width="540"
-                                     height="374"/>
-                                <div class="img-overlay">
-                                    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                    <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                {% for product in products_detail.category.products_set.all %}
+                    {% if product.id != products_detail.id %}
+                        <div class="span3">
+                            <div class="product">
+                                <div class="product-img">
+                                    <div class="picture">
+                                        <img src={{ product.image.url }} alt={{ product.name.split|join:'-' }}
+                                             width="540"
+                                             height="374"/>
+                                        <div class="img-overlay">
+                                            <a href="{% url 'product-detail' product.id product.name.split|join:'-' %}"
+                                               class="btn more btn-primary">توضیحات
+                                                بیشتر</a>
+                                            <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                {% if product.off_price and product.off_expired_time %}
+                                    <div class="main-titles no-margin">
+                                        <h4 class="title"><span class="striked">{{ product.product_price }} تومان</span>
+                                            <span
+                                                    class="red-clr">{{ product.off_price }} تومان</span></h4>
+                                    </div>
+                                {% else %}
+                                    <div class="main-titles no-margin">
+                                        <h4 class="title"><span>{{ product.product_price }} تومان</span></h4>
+                                    </div>
+                                {% endif %}
+                                <h5 class="no-margin">{{ products_detail.name|slice:30 }}...</h5>
+
+                                <p class="desc">{{ product.short_description|slice:130 }}...</p>
+                                <p class="center-align stars">
+                                    <span class="icon-star stars-clr"></span>
+                                    <span class="icon-star stars-clr"></span>
+                                    <span class="icon-star stars-clr"></span>
+                                    <span class="icon-star stars-clr"></span>
+                                    <span class="icon-star"></span>
+                                </p>
                             </div>
-                        </div>
-                        <div class="main-titles no-margin">
-                            <h4 class="title"><span class="striked">90000 تومان</span> <span
-                                    class="red-clr">80000 تومان</span></h4>
-                            <h5 class="no-margin">آدیداس کانورس</h5>
-                        </div>
-                        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                        <p class="center-align stars">
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star"></span>
-                        </p>
-                    </div>
-                </div> <!-- /product -->
-
-
-                <!--  ==========  -->
-                <!--  = Products =  -->
-                <!--  ==========  -->
-                <div class="span3">
-                    <div class="product">
-                        <div class="product-img">
-                            <div class="picture">
-                                <img src="{% static "images/dummy/products/product-2.jpg" %}" alt="" width="540"
-                                     height="374"/>
-                                <div class="img-overlay">
-                                    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                    <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="main-titles no-margin">
-                            <h4 class="title"><span class="striked">70000 تومان</span> <span
-                                    class="red-clr">30000 تومان</span></h4>
-                            <h5 class="no-margin">نایک دانک 552</h5>
-                        </div>
-                        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                        <p class="center-align stars">
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star"></span>
-                        </p>
-                    </div>
-                </div> <!-- /product -->
-
-
-                <!--  ==========  -->
-                <!--  = Products =  -->
-                <!--  ==========  -->
-                <div class="span3">
-                    <div class="product">
-                        <div class="product-img">
-                            <div class="picture">
-                                <img src="{% static "images/dummy/products/product-3.jpg" %}" alt=" " width="540"
-                                     height="374" alt="" width="540" height="374"/>
-                                <div class="img-overlay">
-                                    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                    <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="main-titles no-margin">
-                            <h4 class="title"><span class="striked">45000 تومان</span> <span
-                                    class="red-clr">35000 تومان</span></h4>
-                            <h5 class="no-margin">آل استار 552</h5>
-                        </div>
-                        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                        <p class="center-align stars">
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star"></span>
-                        </p>
-                    </div>
-                </div> <!-- /product -->
-
-
-                <!--  ==========  -->
-                <!--  = Products =  -->
-                <!--  ==========  -->
-                <div class="span3">
-                    <div class="product">
-                        <div class="product-img">
-                            <div class="picture">
-                                <img src="{% static "images/dummy/products/product-4.jpg" %}" alt="" width="540"
-                                     height="374"/>
-                                <div class="img-overlay">
-                                    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                    <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="main-titles no-margin">
-                            <h4 class="title"><span class="striked">10000 تومان</span> <span
-                                    class="red-clr">5000 تومان</span></h4>
-                            <h5 class="no-margin">کاترپیلار 552</h5>
-                        </div>
-                        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                        <p class="center-align stars">
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star stars-clr"></span>
-                            <span class="icon-star"></span>
-                        </p>
-                    </div>
-                </div> <!-- /product -->
-
-
+                        </div> <!-- /product -->
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
