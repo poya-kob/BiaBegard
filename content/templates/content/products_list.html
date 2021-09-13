@@ -55,7 +55,7 @@
                                 <div class="accordion-inner">
                                     {% for category in categories %}
                                         {% if category.parent %}
-                                            <a href="#" data-target=".filter--accessories" class="selectable"><i
+                                            <a href={% url 'products' %} data-target=".filter--accessories" class="selectable"><i
                                                     class="box"></i>
                                                 {{ category.name}}</a>
 {#                                            {{ category.name.split|join:'-' }}#}

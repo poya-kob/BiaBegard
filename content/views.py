@@ -20,3 +20,7 @@ class DetailProduct(DetailView):
     template_name = 'content/product_detail.html'
     context_object_name = 'products_detail'
     pk_url_kwarg = 'pk'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(DetailProduct, self).get_context_data()
+    #     context['related_products']=Products.objects.filter(category=)
