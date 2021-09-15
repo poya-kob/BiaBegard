@@ -1,7 +1,7 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
 {% load tz %}
-{% now "SHORT_DATETIME_FORMAT" as current%}
+{% now "SHORT_DATETIME_FORMAT" as current %}
 
 {% block content %}
 
@@ -95,29 +95,15 @@
                         <!--  ==========  -->
                         <!--  = Add to cart form =  -->
                         <!--  ==========  -->
-                        <form action="#" class="form form-inline clearfix">
+                        <form action="{% url 'add_user_order' %}" method="post" class="form form-inline clearfix">
+                            {% csrf_token %}
+                            {{ order_form.product_id }}
                             <div class="numbered">
-                                <input type="text" name="num" value="1" class="tiny-size"/>
+                                {{ order_form.count }}
                                 <span class="clickable add-one icon-plus-sign-alt"></span>
                                 <span class="clickable remove-one icon-minus-sign-alt"></span>
                             </div>
                             &nbsp;
-                            <select name="color" class="span2">
-                                <option value="-1">انتخاب رنگ</option>
-                                <option value="blue">آبی</option>
-                                <option value="orange">نارنجی</option>
-                                <option value="black">مشکی</option>
-                            </select>
-                            &nbsp;
-                            <select name="size" class="span2">
-                                <option value="-1">انتخاب سایز</option>
-                                <option value="XS">خیلی کوچک</option>
-                                <option value="S">کوچک</option>
-                                <option value="M">متوسط</option>
-                                <option value="L">بزرگ</option>
-                                <option value="XL">خیلی بزرگ</option>
-                                <option value="XXL">خیلی خیلی بزرگ</option>
-                            </select>
                             <button class="btn btn-danger pull-right"><i class="icon-shopping-cart"></i> اضافه به سبد
                                 خرید
                             </button>

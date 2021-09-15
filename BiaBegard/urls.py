@@ -17,14 +17,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from .views import header, footer
+from .views import header, footer, home_page
 
-from .views import home_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('', include('account.urls')),
+    path('', include('financial.urls')),
     path('products/', include("content.urls")),
     path('ckeditor/', include("ckeditor_uploader.urls")),
     path('header', header, name='header'),

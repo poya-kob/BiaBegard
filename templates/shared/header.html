@@ -140,63 +140,28 @@
                             </a>
                         </div>
                         <div class="open-panel">
-
-                            <div class="item-in-cart clearfix">
-                                <div class="image">
-                                    <img src="{% static "images/dummy/cart-items/cart-item-1.jpg" %}" width="124"
-                                         height="124"
-                                         alt="cart item"/>
-                                </div>
-                                <div class="desc">
-                                    <strong><a href="product.html">کلاه زمستانی</a></strong>
-                                    <span class="light-clr qty">
-                                    تعداد : 1
+                            {% for order in orders.order_detail.all %}
+                                <div class="item-in-cart clearfix">
+                                    <div class="image">
+                                        <img src="{{ order.product.image.url }}" width="124" height="124"
+                                             alt="cart item"/>
+                                    </div>
+                                    <div class="desc">
+                                        <strong><a
+                                                href="{% url 'product-detail' order.product.id %}">{{ order.product.name }}</a></strong>
+                                        <span class="light-clr qty">
+                                    تعداد : {{ order.number_of_products }}
                                     &nbsp;
                                     <a href="#" class="icon-remove-sign" title="Remove Item"></a>
                                 </span>
-                                </div>
-                                <div class="price">
-                                    <strong>$4957</strong>
-                                </div>
-                            </div>
+                                    </div>
+                                    <div class="price">
 
-                            <div class="item-in-cart clearfix">
-                                <div class="image">
-                                    <img src="{% static "images/dummy/cart-items/cart-item-2.jpg" %}" width="124"
-                                         height="124"
-                                         alt="cart item"/>
+                                        <strong></strong>
+                                    </div>
                                 </div>
-                                <div class="desc">
-                                    <strong><a href="product.html">کمربند اسپورت</a></strong>
-                                    <span class="light-clr qty">
-                                    تعداد : 1
-                                    &nbsp;
-                                    <a href="#" class="icon-remove-sign" title="Remove Item"></a>
-                                </span>
-                                </div>
-                                <div class="price">
-                                    <strong>$1318</strong>
-                                </div>
-                            </div>
+                            {% endfor %}
 
-                            <div class="item-in-cart clearfix">
-                                <div class="image">
-                                    <img src="{% static "images/dummy/cart-items/cart-item-3.jpg" %}" width="124"
-                                         height="124"
-                                         alt="cart item"/>
-                                </div>
-                                <div class="desc">
-                                    <strong><a href="{% static "product.html" %}">کیف پول مردانه</a></strong>
-                                    <span class="light-clr qty">
-                                    تعداد : 1
-                                    &nbsp;
-                                    <a href="#" class="icon-remove-sign" title="Remove Item"></a>
-                                </span>
-                                </div>
-                                <div class="price">
-                                    <strong>$3840</strong>
-                                </div>
-                            </div>
 
                             <div class="summary">
                                 <div class="line">
@@ -213,9 +178,8 @@
                                 </div>
                             </div>
                             <div class="proceed">
-                                <a href="{% static "checkout-step-1.html" %}"
-                                   class="btn btn-danger pull-right bold higher">تصویه
-                                    حساب <i class="icon-shopping-cart"></i></a>
+                                <a href="checkout-step-1.html" class="btn btn-danger pull-right bold higher">تصویه حساب
+                                    <i class="icon-shopping-cart"></i></a>
                                 <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
                                     بیشتر</a></small>
                             </div>

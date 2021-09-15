@@ -29,44 +29,53 @@ class Orders(models.Model):
     user = models.ForeignKey(User, verbose_name="مالک سبد", on_delete=models.CASCADE)
     is_payed = models.BooleanField(default=False, verbose_name="پرداخت شده/نشده")
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name='تاریخ پرداخت')
-    shipping = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='پست شونده')
-    offs = models.ForeignKey(Offs, on_delete=models.CASCADE, verbose_name="کد تخفیف ")
+    shipping = models.ForeignKey(Post, null=True, on_delete=models.CASCADE, verbose_name='پست شونده')
+    offs = models.ForeignKey(Offs, null=True, on_delete=models.CASCADE, verbose_name="کد تخفیف ")
 
     class Meta:
         verbose_name = 'سبد خرید'
         verbose_name_plural = 'سبدهای خرید کاربران'
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.username
 
     def save(self, *args, **kwargs):
         # اول از همه چک میکنیم این کد تخفیف وجود دارد یا نه
-        offs_qs = Offs.objects.get(off_codes=self.offs)
-        if offs_qs:
-            if datetime.now() > offs_qs.off_expire:
-                raise Exception("تاریخ استفاده از این کد به اتمام رسیده است.")
+        if self.offs:
+            offs_qs = Offs.objects.get(off_codes=self.offs)
+            if offs_qs:
+                if datetime.now() > offs_qs.off_expire:
+                    raise Exception("تاریخ استفاده از این کد به اتمام رسیده است.")
 
-            if offs_qs.number_off <= 0:
-                raise Exception("تعداد استفاده از این کد به اتمام رسیده است")
+                if offs_qs.number_off <= 0:
+                    raise Exception("تعداد استفاده از این کد به اتمام رسیده است")
 
-            # user  همان یوزی است که در تیبل ذخیره داریم و
-            # self.user  همان یوزر فعلی ماست که قصد خرید دارد
-            # بین سبدهای خرید میگردیم ببینیم یوزر فعلی ما این کد فعلی را استفاده کرده یا نکرده
-            if Orders.objects.filter(user=self.user, offs=offs_qs).count() <= 0:
-                offs_qs.number_off -= 1
-                offs_qs.save()
+                # user  همان یوزی است که در تیبل ذخیره داریم و
+                # self.user  همان یوزر فعلی ماست که قصد خرید دارد
+                # بین سبدهای خرید میگردیم ببینیم یوزر فعلی ما این کد فعلی را استفاده کرده یا نکرده
+                if Orders.objects.filter(user=self.user, offs=offs_qs).count() <= 0:
+                    offs_qs.number_off -= 1
+                    offs_qs.save()
+            else:
+                raise Exception(' این کد قابل استفاده نیست ')
         else:
-            raise Exception(' این کد قابل استفاده نیست ')
+            return super().save(*args, **kwargs)
 
 
 class OrderDetails(models.Model):
     product = models.ForeignKey(Products, verbose_name="محصول", on_delete=models.CASCADE)
     number_of_products = models.IntegerField(verbose_name="تعداد محصول")
-    order = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name="سبد خرید")
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='order_detail', verbose_name="سبد خرید")
 
     @property
     def total_price_product(self):
-        return self.product.product_price * self.number_of_products
+        if self.product.off_price and self.product.off_expired_time >= datetime.now():
+            return self.product.off_price * self.number_of_products
+        else:
+            return self.product.product_price * self.number_of_products
+
+    def __str__(self):
+        return self.product.name
 
     class Meta:
         verbose_name = 'جزئیات پرداخت'
