@@ -34,8 +34,8 @@ class Brands(models.Model):
 
 
 class Products(models.Model):
-    __original_price = None
-    __original_off_price = None
+    _original_price = None
+    _original_off_price = None
     name = models.CharField(max_length=150, verbose_name="نام")
     image = models.ImageField(upload_to=upload_image_path, verbose_name="کاور اصلی محصول")
     inventory = models.IntegerField(verbose_name="موجودی محصول")
@@ -57,8 +57,8 @@ class Products(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__original_price = self.product_price
-        self.__original_off_price = self.off_price
+        self._original_price = self.product_price
+        self._original_off_price = self.off_price
 
     @property
     def is_new(self):
@@ -68,25 +68,39 @@ class Products(models.Model):
 
         return False
 
+    @property
+    def original_off_price(self):
+        return self._original_off_price
 
-def save(self, force_insert=False, force_update=False, using=None,
-         update_fields=None):
-    if self.off_price and self.off_expired_time is None:
-        raise Exception("تاریخ انقضا برای پایان تخفیف تعیین کنید.")
-    if self.off_expired_time and self.off_expired_time < datetime.now():
-        raise Exception("زمان پایان تخفیف نمیتواند امروز یا الآن باشد")
-    if self.inventory <= 0:
-        raise Exception("موجودی محصول نمیتواند صفر یا کمتر از آن باشد")
-    if self.product_price <= 0:
-        raise Exception(f"{self.product_price} نمیتواند بعوان قیمت محصول قرار گیرد. ")
-    if self.off_price < 0 or self.off_price >= self.product_price:
-        raise Exception(f"{self.off_price} نمیتواند بعوان قیمت با تخفیف محصول قرار گیرد. ")
+    @property
+    def original_price(self):
+        return self._original_price
 
-    super().save(force_insert, force_update, using, update_fields)
-    if self.off_price != self.__original_off_price > 0:
-        PricesHistory.objects.create(product=self, product_price=self.off_price)
-    elif self.product_price != self.__original_price:
-        PricesHistory.objects.create(product=self, product_price=self.product_price)
+    def __str__(self):
+        return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.off_price and self.off_expired_time is None:
+            raise Exception("تاریخ انقضا برای پایان تخفیف تعیین کنید.")
+        if self.off_expired_time and self.off_expired_time < datetime.now():
+            raise Exception("زمان پایان تخفیف نمیتواند امروز یا الآن باشد")
+        if self.inventory <= 0:
+            raise Exception("موجودی محصول نمیتواند صفر یا کمتر از آن باشد")
+        if self.product_price <= 0:
+            raise Exception(f"{self.product_price} نمیتواند بعوان قیمت محصول قرار گیرد. ")
+        if self.off_price < 0 or self.off_price >= self.product_price:
+            raise Exception(f"{self.off_price} نمیتواند بعوان قیمت با تخفیف محصول قرار گیرد. ")
+
+        super().save(force_insert, force_update, using, update_fields)
+        # if self.off_price != self.__original_off_price > 0:
+        #     PricesHistory.objects.create(product=self, product_price=self.off_price)
+        # elif self.product_price != self.__original_price:
+        #     PricesHistory.objects.create(product=self, product_price=self.product_price)
+
+    @property
+    def original_off_price(self):
+        return self._original_off_price
 
 
 def __str__(self):
