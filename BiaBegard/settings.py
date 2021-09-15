@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'account',
     'django_render_partial',
     'slider',
+    'contact_us'
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
