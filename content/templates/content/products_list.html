@@ -7,19 +7,19 @@
         <div class="container">
             <div class="row">
                 <div class="span12">
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="index.html">وبمارکت</a>
-                        </li>
-                        <li><span class="icon-chevron-right"></span></li>
-                        <li>
-                            <a href="shop.html">فروشگاه</a>
-                        </li>
-                        <li><span class="icon-chevron-right"></span></li>
-                        <li>
-                            <a href="shop.html">قالب بندی اصلی</a>
-                        </li>
-                    </ul>
+                    {#                    <ul class="breadcrumb">#}
+                    {#                        <li>#}
+                    {#                            <a href="index.html">وبمارکت</a>#}
+                    {#                        </li>#}
+                    {#                        <li><span class="icon-chevron-right"></span></li>#}
+                    {#                        <li>#}
+                    {#                            <a href="shop.html">فروشگاه</a>#}
+                    {#                        </li>#}
+                    {#                        <li><span class="icon-chevron-right"></span></li>#}
+                    {#                        <li>#}
+                    {#                            <a href="shop.html">قالب بندی اصلی</a>#}
+                    {#                        </li>#}
+                    {#                    </ul>#}
                 </div>
             </div>
         </div>
@@ -55,10 +55,11 @@
                                 <div class="accordion-inner">
                                     {% for category in categories %}
                                         {% if category.parent %}
-                                            <a href="#" data-target=".filter--accessories" class="selectable"><i
+                                            <a href={% url 'products' %} data-target=".filter--accessories"
+                                               class="selectable"><i
                                                     class="box"></i>
-                                                {{ category.name}}</a>
-{#                                            {{ category.name.split|join:'-' }}#}
+                                                {{ category.name }}</a>
+                                            {#                                            {{ category.name.split|join:'-' }}#}
                                         {% else %}
                                             <a class="accordion-toggle" href="#filterOne">
                                                 <b> {{ category.name }}</b></a>
@@ -207,16 +208,21 @@
                                      data-size="xs|s|m|xl" data-color="pink" data-brand="adidas"
                                      style="position: absolute; left: 0px; top: 0px; transform: translate3d(300px, 3133px, 0px);">
                                     <div class="product">
-
-                                        <div class="stamp red">تمام شد</div>
+                                        {% if product.inventory <= 0 %}
+                                            <div class="stamp red">تمام شد</div>
+                                        {% elif product.is_new %}
+                                            <div class="stamp green">جدید</div>
+                                        {% endif %}
 
                                         <div class="product-img">
                                             <div class="picture">
                                                 <img alt=""
-                                                     src={{ product.image.url }}
-                                                             width="540" height="374">
+                                                     src={{ product.image.url }}                                                        width="540"
+                                                     height="374">
                                                 <div class="img-overlay">
-                                                    <a class="btn more btn-primary" href={% url 'product-detail' product.id product.name.split|join:'-' %}>توضیحات بیشتر</a>
+                                                    <a class="btn more btn-primary"
+                                                       href={% url 'product-detail' product.id product.name.split|join:'-' %}>توضیحات
+                                                        بیشتر</a>
                                                     <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a>
                                                 </div>
                                             </div>
@@ -244,6 +250,30 @@
                         </div>
                     </div>
                     <hr>
+                    <!--  ==========  -->
+                    <!--  = Pagination =  -->
+                    <!--  ==========  -->
+                    {% if is_paginated %}
+                        <div class="pagination pagination-centered">
+                            <ul>
+                                {% if page_obj.has_next %}
+                                    <li><a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary"><span class="icon-chevron-left"></span></a>
+                                    </li>
+                                {% endif %}
+                                {% for page in paginator.page_range %}
+                                    {% if page == page_obj.number %}
+                                        <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary"><span class="icon-chevron-right"></span></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div> <!-- /pagination -->
+                    {% endif %}
                 </section> <!-- /main content -->
             </div>
         </div>

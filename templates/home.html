@@ -10,52 +10,42 @@
         <div class="fullwidthbanner">
             <ul>
                 {% for image in sliders %}
-                <li data-transition="premium-random" data-slotamount="3">
-                    <img src= {{ image.image.url }} alt="slider img" width="1400"
-                         height="377"/>
+                    <li data-transition="premium-random" data-slotamount="3">
+                        <img src="{{ image.image.url }}" alt="slider img" width="1400"
+                             height="377"/>
 
-                    <!-- baloons -->
+                        <!-- baloons -->
+                        <!-- texts -->
+                        <div class="caption lfl big_theme"
+                             data-x="120"
+                             data-y="120"
+                             data-speed="1000"
+                             data-start="500"
+                             data-easing="easeInOutBack">
+                            {{ image.title }}
+                            \
+                        </div>
 
+                        <div class="caption lfl small_theme"
+                             data-x="120"
+                             data-y="190"
+                             data-speed="1000"
+                             data-start="700"
+                             data-easing="easeInOutBack">
+                            {{ image.description }}
 
+                        </div>
 
-
-
-
-                    <!-- texts -->
-                    <div class="caption lfl big_theme"
-                         data-x="120"
-                         data-y="120"
-                         data-speed="1000"
-                         data-start="500"
-                         data-easing="easeInOutBack">
-                        {{ image.title }}
-\                    </div>
-
-                    <div class="caption lfl small_theme"
-                         data-x="120"
-                         data-y="190"
-                         data-speed="1000"
-                         data-start="700"
-                         data-easing="easeInOutBack">
-                        {{ image.description }}
-
-                    </div>
-
-                    <a href={{ image.link }} class="caption lfl btn btn-primary btn_theme"
-                       data-x="120"
-                       data-y="260"
-                       data-speed="1000"
-                       data-start="900"
-                       data-easing="easeInOutBack">
-                        توضیحات لینک
-
-                    </a>
-                </li><!-- /slide -->
+                        <a href="{{ image.link }}" class="caption lfl btn btn-primary btn_theme"
+                           data-x="120"
+                           data-y="260"
+                           data-speed="1000"
+                           data-start="900"
+                           data-easing="easeInOutBack">
+                            توضیحات لینک
+                        </a>
+                    </li><!-- /slide -->
                 {% endfor %}
-
-
-
-
                 </li><!-- /slide -->
             </ul>
             <div class="tp-bannertimer"></div>
@@ -67,7 +57,7 @@
         <div id="sliderRevRight"><i class="icon-chevron-right"></i></div>
     </div> <!-- /slider revolution -->
 
-      <!--  ==========  -->
+    <!--  ==========  -->
     <!--  = Main container =  -->
     <!--  ==========  -->
     <div class="container">
@@ -111,13 +101,13 @@
                 <!--  ==========  -->
                 <!--  = Title =  -->
                 <!--  ==========  -->
-            	<div class="main-titles lined">
-            	    <h2 class="title"><span class="light">محصولات</span> ویژه</h2>
-            	    <div class="arrows">
+                <div class="main-titles lined">
+                    <h2 class="title"><span class="light">محصولات</span> ویژه</h2>
+                    <div class="arrows">
                         <a href="#" class="icon-chevron-right" id="featuredItemsRight"></a>
                         <a href="#" class="icon-chevron-left" id="featuredItemsLeft"></a>
                     </div>
-            	</div>
+                </div>
             </div>
 
             <div class="span12">
@@ -127,219 +117,209 @@
                 <div class="carouFredSel" data-autoplay="false" data-nav="featuredItems">
                     <div class="slide">
                         <div class="row">
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-1.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$115</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 652</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-1.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$115</h4>
+                                        <h5 class="no-margin">محصول ویژه 652</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
 
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
-
-
-
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
 
 
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-2.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$91</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 735</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-2.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$91</h4>
+                                        <h5 class="no-margin">محصول ویژه 735</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
 
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
-
-
-
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
 
 
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-3.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$40</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 387</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star"></span>
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-3.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$40</h4>
+                                        <h5 class="no-margin">محصول ویژه 387</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star"></span>
 
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
 
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="row">
 
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-1.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$41</h4>
+                                        <h5 class="no-margin">محصول ویژه 515</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
 
-
-            	        </div>
-            	    </div>
-            	    <div class="slide">
-            	        <div class="row">
-
-
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-1.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$41</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 515</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
 
 
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-2.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$107</h4>
+                                        <h5 class="no-margin">محصول ویژه 690</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
+
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
 
 
+                            <!--  ==========  -->
+                            <!--  = Product =  -->
+                            <!--  ==========  -->
+                            <div class="span4">
+                                <div class="product">
+                                    <div class="product-img featured">
+                                        <div class="picture">
+                                            <img src="{% static "images/dummy/featured-products/featured-3.png" %}"
+                                                 alt="" width="518" height="358"/>
+                                            <div class="img-overlay">
+                                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
+                                                <a href="#" class="btn buy btn-danger">خرید</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="main-titles">
+                                        <h4 class="title">$61</h4>
+                                        <h5 class="no-margin">محصول ویژه 405</h5>
+                                    </div>
+                                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                                    <p class="center-align stars">
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star stars-clr"></span>
+                                        <span class="icon-star"></span>
+                                        <span class="icon-star"></span>
 
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-2.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$107</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 690</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
-
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
-
-
-
-
-
-    	            	<!--  ==========  -->
-    					<!--  = Product =  -->
-    					<!--  ==========  -->
-    	            	<div class="span4">
-    	            	    <div class="product">
-    	            	        <div class="product-img featured">
-    	            	            <div class="picture">
-    	            	        	    <img src="{% static "images/dummy/featured-products/featured-3.png" %}" alt="" width="518" height="358" />
-    	            	        		<div class="img-overlay">
-    	            	        		    <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-    	            	        		    <a href="#" class="btn buy btn-danger">خرید</a>
-    	            	        		</div>
-    	            	            </div>
-    	            	        </div>
-    	            	        <div class="main-titles">
-    	            	            <h4 class="title">$61</h4>
-    	            	            <h5 class="no-margin">محصول ویژه 405</h5>
-    	            	        </div>
-    	            	        <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-    	            	        <p class="center-align stars">
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star stars-clr"></span>
-                    	            <span class="icon-star"></span>
-                    	            <span class="icon-star"></span>
-
-                    	        </p>
-    	            	    </div>
-                	      </div> <!-- /product -->
-    	            	    	            	</div>
-                	</div>
+                                    </p>
+                                </div>
+                            </div> <!-- /product -->
+                        </div>
+                    </div>
                 </div> <!-- /carousel -->
             </div>
 
         </div>
     </div> <!-- /container -->
 
-        <!--  ==========  -->
+    <!--  ==========  -->
     <!--  = New Products =  -->
     <!--  ==========  -->
     <div class="boxed-area blocks-spacer">
@@ -621,7 +601,7 @@
         </div>
     </div><!-- /new products -->
 
-     <!--  ==========  -->
+    <!--  ==========  -->
     <!--  = Most Popular products =  -->
     <!--  ==========  -->
     <div class="most-popular blocks-spacer">
@@ -775,121 +755,126 @@
         </div>
     </div>    <!--  = Most Popular products =  -->
 
-     <!--  ==========  -->
+    <!--  ==========  -->
     <!--  = Lastest News =  -->
     <!--  ==========  -->
     <div class="darker-stripe blocks-spacer more-space latest-news with-shadows">
-    	<div class="container">
+        <div class="container">
 
-    	    <!--  ==========  -->
-			<!--  = Title =  -->
-			<!--  ==========  -->
-    		<div class="row">
-    			<div class="span12">
-    			    <div class="main-titles center-align">
-    			        <h2 class="title">
-    			            <span class="clickable icon-chevron-right" id="tweetsRight"></span> &nbsp;&nbsp;&nbsp;
-    			            <span class="light">آخرین</span> خبر ها &nbsp;&nbsp;&nbsp;
-    			            <span class="clickable icon-chevron-left" id="tweetsLeft"></span>
-			            </h2>
-    			    </div>
-    			</div>
-    		</div> <!-- /title -->
+            <!--  ==========  -->
+            <!--  = Title =  -->
+            <!--  ==========  -->
+            <div class="row">
+                <div class="span12">
+                    <div class="main-titles center-align">
+                        <h2 class="title">
+                            <span class="clickable icon-chevron-right" id="tweetsRight"></span> &nbsp;&nbsp;&nbsp;
+                            <span class="light">آخرین</span> خبر ها &nbsp;&nbsp;&nbsp;
+                            <span class="clickable icon-chevron-left" id="tweetsLeft"></span>
+                        </h2>
+                    </div>
+                </div>
+            </div> <!-- /title -->
 
-    		<!--  ==========  -->
-			<!--  = News content =  -->
-			<!--  ==========  -->
-    		<div class="row">
-    		    <div class="span12">
-    		        <div class="carouFredSel" data-nav="tweets" data-autoplay="false">
+            <!--  ==========  -->
+            <!--  = News content =  -->
+            <!--  ==========  -->
+            <div class="row">
+                <div class="span12">
+                    <div class="carouFredSel" data-nav="tweets" data-autoplay="false">
 
 
-		                <!--  ==========  -->
-						<!--  = Slide =  -->
-						<!--  ==========  -->
+                        <!--  ==========  -->
+                        <!--  = Slide =  -->
+                        <!--  ==========  -->
                         <div class="slide">
-                        	<div class="row">
-                        		<div class="span6">
-                        		    <div class="news-item">
-                        		        <div class="published">12 بهمن 1392</div>
-                        		        <h6><a href="#">عنوان خبر شما</a></h6>
-                        		        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با محتوای دلخواه خود پر کنید.</p>
-                        		    </div>
-                        		</div>
-                        		<div class="span6">
-                        		    <div class="news-item">
-                        		        <div class="published">15 بهمن 1392</div>
-                        		        <h6><a href="#">یک خبر جالب دیگر</a></h6>
-                        		        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با محتوای دلخواه خود پر کنید.</p>
-                        		    </div>
-                        		</div>
-                        	</div>
+                            <div class="row">
+                                <div class="span6">
+                                    <div class="news-item">
+                                        <div class="published">12 بهمن 1392</div>
+                                        <h6><a href="#">عنوان خبر شما</a></h6>
+                                        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا
+                                            برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این
+                                            ناحیه را با محتوای دلخواه خود پر کنید.</p>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="news-item">
+                                        <div class="published">15 بهمن 1392</div>
+                                        <h6><a href="#">یک خبر جالب دیگر</a></h6>
+                                        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا
+                                            برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این
+                                            ناحیه را با محتوای دلخواه خود پر کنید.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div> <!-- /slide -->
 
 
-		                <!--  ==========  -->
-						<!--  = Slide =  -->
-						<!--  ==========  -->
+                        <!--  ==========  -->
+                        <!--  = Slide =  -->
+                        <!--  ==========  -->
                         <div class="slide">
-                        	<div class="row">
-                        		<div class="span6">
-                        		    <div class="news-item">
-                        		        <div class="published">12 بهمن 1392</div>
-                        		        <h6><a href="#">عنوان خبر شما</a></h6>
-                        		        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با محتوای دلخواه خود پر کنید.</p>
-                        		    </div>
-                        		</div>
-                        		<div class="span6">
-                        		    <div class="news-item">
-                        		        <div class="published">15 بهمن 1392</div>
-                        		        <h6><a href="#">یک خبر جالب دیگر</a></h6>
-                        		        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با محتوای دلخواه خود پر کنید.</p>
-                        		    </div>
-                        		</div>
-                        	</div>
+                            <div class="row">
+                                <div class="span6">
+                                    <div class="news-item">
+                                        <div class="published">12 بهمن 1392</div>
+                                        <h6><a href="#">عنوان خبر شما</a></h6>
+                                        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا
+                                            برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این
+                                            ناحیه را با محتوای دلخواه خود پر کنید.</p>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="news-item">
+                                        <div class="published">15 بهمن 1392</div>
+                                        <h6><a href="#">یک خبر جالب دیگر</a></h6>
+                                        <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا
+                                            برای پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این
+                                            ناحیه را با محتوای دلخواه خود پر کنید.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div> <!-- /slide -->
 
                     </div>
-    		    </div>
-    		</div> <!-- /news content -->
-    	</div>
+                </div>
+            </div> <!-- /news content -->
+        </div>
     </div> <!-- /latest news -->
 
 
     <!--  ==========  -->
     <!--  = Brands Carousel =  -->
     <!--  ==========  -->
-	<div class="container blocks-spacer-last">
+    <div class="container blocks-spacer-last">
 
-		<!--  ==========  -->
-		<!--  = Title =  -->
-		<!--  ==========  -->
-		<div class="row">
-		    <div class="span12">
-		    	<div class="main-titles lined">
-	                <h2 class="title"><span class="light">برند های</span> ما</h2>
+        <!--  ==========  -->
+        <!--  = Title =  -->
+        <!--  ==========  -->
+        <div class="row">
+            <div class="span12">
+                <div class="main-titles lined">
+                    <h2 class="title"><span class="light">برند های</span> ما</h2>
                     <div class="arrows">
                         <a href="#" class="icon-chevron-right" id="brandsRight"></a>
                         <a href="#" class="icon-chevron-left" id="brandsLeft"></a>
                     </div>
-	            </div>
-		    </div>
-		</div> <!-- /title -->
-
-		<!--  ==========  -->
-		<!--  = Logos =  -->
-		<!--  ==========  -->
-		<div class="row">
-		    <div class="span12">
-		    	<div class="brands carouFredSel" data-nav="brands" data-autoplay="true">
-                    <img src="{% static "images/dummy/brands/brands_01.jpg" %}" alt="" width="203" height="104" />
-                    <img src="{% static "images/dummy/brands/brands_02.jpg" %}" alt="" width="203" height="104" />
-                    <img src="{% static "images/dummy/brands/brands_03.jpg" %}" alt="" width="203" height="104" />
-                    <img src="{% static "images/dummy/brands/brands_04.jpg" %}" alt="" width="203" height="104" />
-                    <img src="{% static "images/dummy/brands/brands_05.jpg" %}" alt="" width="203" height="104" />
-                    <img src="{% static "images/dummy/brands/brands_06.jpg" %}" alt="" width="203" height="104" />
                 </div>
-		    </div>
-		</div> <!-- /logos -->
-	</div> <!-- /brands carousel -->
+            </div>
+        </div> <!-- /title -->
+
+        <!--  ==========  -->
+        <!--  = Logos =  -->
+        <!--  ==========  -->
+        <div class="row">
+            <div class="span12">
+                <div class="brands carouFredSel" data-nav="brands" data-autoplay="true">
+                    {% for brand in brands %}
+                        <img src="{{ brand.image.url }}" alt="{{ brand.title }}" width="203" height="104"/>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> <!-- /logos -->
+    </div> <!-- /brands carousel -->
 {% endblock %}

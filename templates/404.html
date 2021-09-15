@@ -1,0 +1,25 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="push-up blocks-spacer">
+            <div class="row">
+                <section class="span12">
+                    <p class="container-404">
+                        <img src="{% static "images/404.png" %}" alt="404 Error" width="394" height="161"/>
+                    </p>
+                    <hr/>
+                    <p class="center-align size-16">
+                        به نظر می آید مشکلی پیش آمده! صفحه این که به دنبال آن میگردید در اینجا نیست.
+                    </p>
+                    <p class="center-align size-16 push-down-50">
+                        به <a href={% url 'home' %}>خانه</a> باز گردید
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+    
+    
