@@ -3,7 +3,7 @@ from django.shortcuts import render
 from account.forms import LoginForm, RegisterForm
 from content.models import Category, Brands
 from slider.models import Slider
-from financial.models import Orders
+from financial.models import Carts
 
 
 def home_page(request):
@@ -21,9 +21,15 @@ def home_page(request):
 # header code behind
 
 def header(request, *args, **kwargs):
+    total_price = 0
+    orders = Carts.objects.filter(user_id=request.user.id).first()
+    for order in orders.cart_items.filter(status="pending"):
+        total_price += order.total_price_product
     context = {
         'categories': Category.objects.all().order_by('parent'),
-        'orders': Orders.objects.filter(user_id=request.user.id, is_payed=False).first(),
+        'orders': orders,
+        'total_price': total_price,
+        'total_item': orders.cart_items.filter(status="pending").count()
     }
     return render(request, 'shared/header.html', context)
 

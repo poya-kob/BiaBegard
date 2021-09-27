@@ -116,7 +116,7 @@
 
                             </li>
                             <li><a href="about-us.html">درباره ما</a></li>
-                            <li><a href="/contact-us">تماس با ما</a></li>
+                            <li><a href="{% url 'contact-us' %}">تماس با ما</a></li>
                         </ul>
 
                         <!--  ==========  -->
@@ -132,34 +132,37 @@
                 <div class="span3">
                     <div class="cart-container" id="cartContainer">
                         <div class="cart">
-                            <p class="items">سبد خرید <span class="dark-clr">(3)</span></p>
-                            <p class="dark-clr hidden-tablet">$1816.90</p>
-                            <a href="checkout-step-1.html" class="btn btn-danger">
+                            <p class="items">سبد خرید <span class="dark-clr">{{ total_item }}</span></p>
+                            <p class="dark-clr hidden-tablet">{{ total_price }}</p>
+                            <a href="{% url "check_step1" %}" class="btn btn-danger">
                                 <!-- <span class="icon icons-cart"></span> -->
                                 <i class="icon-shopping-cart"></i>
                             </a>
                         </div>
                         <div class="open-panel">
-                            {% for order in orders.order_detail.all %}
-                                <div class="item-in-cart clearfix">
-                                    <div class="image">
-                                        <img src="{{ order.product.image.url }}" width="124" height="124"
-                                             alt="cart item"/>
-                                    </div>
-                                    <div class="desc">
-                                        <strong><a
-                                                href="{% url 'product-detail' order.product.id %}">{{ order.product.name }}</a></strong>
-                                        <span class="light-clr qty">
-                                    تعداد : {{ order.number_of_products }}
+                            {% for order in orders.cart_items.all %}
+                                {% if order.status == "pending" %}
+                                    <div class="item-in-cart clearfix">
+                                        <div class="image">
+                                            <img src="{{ order.product.image.url }}" width="124" height="124"
+                                                 alt="cart item"/>
+                                        </div>
+                                        <div class="desc">
+                                            <strong><a
+                                                    href="{% url 'product-detail' order.product.id %}">{{ order.product.name }}</a></strong>
+                                            <span class="light-clr qty">
+                                    تعداد : {{ order.qty }}
                                     &nbsp;
-                                    <a href="#" class="icon-remove-sign" title="Remove Item"></a>
+                                    <a href="{% url 'remove-item' %}?id={{ order.id }}" class="icon-remove-sign"
+                                       title="Remove Item"></a>
                                 </span>
-                                    </div>
-                                    <div class="price">
+                                        </div>
+                                        <div class="price">
 
-                                        <strong></strong>
+                                            <strong></strong>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {% endfor %}
 
 
@@ -167,18 +170,19 @@
                                 <div class="line">
                                     <div class="row-fluid">
                                         <div class="span6">هزینه ارسال :</div>
-                                        <div class="span6 align-right">$4.99</div>
+                                        <div class="span6 align-right">0</div>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <div class="row-fluid">
                                         <div class="span6">جمع کل :</div>
-                                        <div class="span6 align-right size-16">$357.81</div>
+                                        <div class="span6 align-right size-16">{{ total_price }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="proceed">
-                                <a href="checkout-step-1.html" class="btn btn-danger pull-right bold higher">تصویه حساب
+                                <a href="{% url "check_step1" %}" class="btn btn-danger pull-right bold higher">تصویه
+                                    حساب
                                     <i class="icon-shopping-cart"></i></a>
                                 <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
                                     بیشتر</a></small>
