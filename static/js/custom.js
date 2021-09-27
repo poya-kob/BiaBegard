@@ -445,6 +445,7 @@ jQuery(document).ready(function($) {
         }, "swing", function() {
             $(this).slideUp();
         });
+        window.location.href = $(this).attr("href");
         return false;
     });
 

@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.staticfiles.finders import AppDirectoriesFinder
+from dotenv import load_dotenv, find_dotenv
 
+env_file = Path(find_dotenv(usecwd=True))
+load_dotenv(verbose=True, dotenv_path=env_file)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4953jrjoq@p4%gl@t9vr6d4r0by1+3thr7#*d7mbqh97&tt&$&'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,7 +50,8 @@ INSTALLED_APPS = [
     'account',
     'django_render_partial',
     'slider',
-    'contact_us'
+    'contact_us',
+    'payment'
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
@@ -138,7 +143,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [(
-    BASE_DIR / 'static/')
+        BASE_DIR / 'static/')
 ]
 # STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 

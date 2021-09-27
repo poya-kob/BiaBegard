@@ -19,12 +19,12 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import header, footer, home_page
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('', include('account.urls')),
     path('', include('financial.urls')),
+    path('', include('payment.urls')),
     path('products/', include("content.urls")),
     path('ckeditor/', include("ckeditor_uploader.urls")),
     path('', include("contact_us.urls")),

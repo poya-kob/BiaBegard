@@ -2,7 +2,7 @@ from django import forms
 
 
 class LoginForm(forms.Form):
-    full_name = forms.CharField(
+    username = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'نام کاربری خود را وارد کنید', 'class': 'input-block-level'})
 
     )
