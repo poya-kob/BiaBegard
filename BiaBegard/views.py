@@ -21,16 +21,19 @@ def home_page(request):
 # header code behind
 
 def header(request, *args, **kwargs):
-    total_price = 0
-    orders = Carts.objects.filter(user_id=request.user.id).first()
-    for order in orders.cart_items.filter(status="pending"):
-        total_price += order.total_price_product
     context = {
         'categories': Category.objects.all().order_by('parent'),
-        'orders': orders,
-        'total_price': total_price,
-        'total_item': orders.cart_items.filter(status="pending").count()
+
     }
+    if request.user.is_authenticated:
+        total_price = 0
+        orders = Carts.objects.filter(user_id=request.user.id).first()
+        for order in orders.cart_items.filter(status="pending"):
+            total_price += order.total_price_product
+        context['orders'] = orders
+        context['total_price'] = total_price
+        context['total_item'] = orders.cart_items.filter(status="pending").count()
+
     return render(request, 'shared/header.html', context)
 
 
