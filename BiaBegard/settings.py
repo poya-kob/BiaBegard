@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'ckeditor',
     'django_jalali',
+    'rest_framework',
     # my apps
     'content',
     'financial',
