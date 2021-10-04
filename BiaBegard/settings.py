@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'ckeditor',
     'django_jalali',
+
     # my apps
     'content',
     'financial',
@@ -51,7 +52,9 @@ INSTALLED_APPS = [
     'django_render_partial',
     'slider',
     'contact_us',
-    'payment'
+    'payment',
+    'rest_framework',
+    'comment',
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
@@ -105,6 +108,19 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "TIMEOUT": 60 * 60,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "biabegard"
+    },
+
 }
 
 # Password validation

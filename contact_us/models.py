@@ -10,12 +10,9 @@ class ContactUs(models.Model):
     text = models.TextField()
     is_read = models.BooleanField(verbose_name="خوانده شده/ نشده")
 
-
     class Meta:
         verbose_name = 'تماس با ما'
         verbose_name_plural = "تماس های کاربران"
 
     def __str__(self):
         return self.subject
-
-
