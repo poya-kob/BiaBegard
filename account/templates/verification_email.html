@@ -1,4 +1,6 @@
 {% autoescape off %}
     سلام {{ user.email }}
+
+
     http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}
