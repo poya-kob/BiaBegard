@@ -35,7 +35,8 @@ class Blog(models.Model):
 class Comments(models.Model):
     title = models.CharField(max_length=150, verbose_name='عنوان نظر')
     description = models.TextField(verbose_name="متن اصلی نظر")
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, verbose_name="کاربر مربوطه")
+    user = models.ForeignKey(to=User, related_name='user', on_delete=models.SET_NULL, null=True,
+                             verbose_name="کاربر مربوطه")
     blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name='comment', verbose_name="مقاله مربوطه")
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد نظر')
     active = models.BooleanField(default=False, verbose_name='فعال / غیر فعال')
