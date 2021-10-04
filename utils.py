@@ -25,3 +25,5 @@ def upload_image_path(instance, filename):
         return f"Brands/{date.year}/{date.month}/{date.day}/{new_name}"
     elif type(instance).__name__ == "Slider":
         return f"Slider/{date.year}/{date.month}/{date.day}/{new_name}"
+    elif type(instance).__name__ == "Blog":
+        return f"Blog/{date.year}/{date.month}/{date.day}/{new_name}"

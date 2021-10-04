@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'slider',
     'contact_us',
     'payment',
+    'api_blog',
     'rest_framework',
     'comment',
 ]
@@ -114,7 +115,7 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/0",
-        "TIMEOUT": 60 * 60,
+        "TIMEOUT": 60 * 60 * 60 * 24,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
