@@ -5,6 +5,7 @@ from .models import Products, Category
 from financial.forms import UserNewOrderForm
 
 
+
 class ProductsList(ListView):
     model = Products
     template_name = 'content/products_list.html'
@@ -29,6 +30,8 @@ class DetailProduct(DetailView):
         context = super(DetailProduct, self).get_context_data()
         context['order_form'] = UserNewOrderForm(self.request.POST or None, initial={'product_id': self.kwargs['pk']})
         return context
+
+
 
 
 class ProductSearch(ListView):
