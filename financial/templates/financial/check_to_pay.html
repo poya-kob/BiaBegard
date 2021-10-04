@@ -1,0 +1,102 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <!--  ==========  -->
+            <!--  = Steps =  -->
+            <!--  ==========  -->
+            <div class="checkout-steps">
+                <div class="clearfix">
+                    <div class="step active">
+                        <div class="step-badge">1</div>
+                        سبد خرید
+                    </div>
+                    <div class="step">
+                        <div class="step-badge">2</div>
+                        آدرس ارسال
+                    </div>
+                    <div class="step">
+                        <div class="step-badge">3</div>
+                        شیوه پرداخت
+                    </div>
+                    <div class="step">
+                        <div class="step-badge">4</div>
+                        تایید و پرداخت
+                    </div>
+                </div>
+            </div> <!-- /steps -->
+
+            <!--  ==========  -->
+            <!--  = Selected Items =  -->
+            <!--  ==========  -->
+            <form method="post" action="{% url 'pay_page' %}">
+                {% csrf_token %}
+                <table class="table table-items">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="align-center">انتخاب</div>
+                        </th>
+                        <th colspan="2">آیتم</th>
+                        <th>
+                            <div class="align-center">تعداد</div>
+                        </th>
+                        <th>
+                            <div class="align-right">قیمت</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in cart_items.cart_items.all %}
+                        {% if item.status == "pending" %}
+                            <tr>
+                                <td class="qty">
+                                    {% if item.is_selected %}
+                                        <input type="checkbox" value="{{ item.id }}" name="item[{{ item.id }}]" checked>
+                                    {% else %}
+                                        <input type="checkbox" value="{{ item.id }}" name="item[{{ item.id }}]">
+                                    {% endif %}
+                                </td>
+                                <td class="image"><img src="{{ item.product.image.url }}" alt=""
+                                                       width="124"
+                                                       height="124"/></td>
+                                <td class="desc">{{ item.product.name }} &nbsp;
+                                    <a title="Remove Item" class="icon-remove-sign"
+                                       href="{% url 'remove-item' %}?id={{ item.id }}"></a>
+                                </td>
+                                <td class="qty">
+                                    <input type="text" class="tiny-size" value="{{ item.qty }}"/>
+                                </td>
+                                <td class="price">
+                                    {{ item.total_price_product }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td class="stronger">هزینه ارسال :</td>
+                        <td class="stronger">
+                            <div class="align-right">0</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stronger">جمع کل :</td>
+                        <td class="stronger">
+                            <div class="size-16 align-right">{{ total_price }}</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr/>
+
+                <p class="right-align">
+                    در مرحله بعدی انتتخاب آدرس &nbsp; &nbsp;
+                    <button class="btn btn-primary higher bold"> پرداخت</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

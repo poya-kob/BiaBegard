@@ -1,8 +1,15 @@
-from django.shortcuts import redirect
-from .models import Customers, Suppliers
+from django.conf import settings
+from django.core.mail import send_mail
+from django.shortcuts import redirect ,HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
 
+from .models import Customers, Suppliers
 from .forms import LoginForm, RegisterForm
+from verification_email_token_gen import account_activation_token
 
 
 def login_page(request):
@@ -41,11 +48,37 @@ def register_page(request):
         password = register_form.cleaned_data.get('password')
 
         if register_form.cleaned_data.get('be_supplier'):
-            Suppliers.objects.create_user(username=username, email=email, password=password, phone=phone, is_staff=True,
-                                          is_active=False)
+
+            user = Suppliers.objects.create_user(username=username, email=email, password=password, phone=phone,
+                                                 is_staff=True,
+                                                 is_active=False)
+            current_site = get_current_site(request)
+            mail_subject = 'اکانت خود را در بیابگرد فعال کنید.'
+            message = render_to_string('verification_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [email, ])
+
         else:
             Customers.objects.create_user(username=username, email=email, password=password, phone=phone,
                                           is_staff=False,
                                           is_active=True)
     # todo show success message and redirect to the next url
     return redirect('/')
+
+
+def email_activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = Suppliers.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Suppliers.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
