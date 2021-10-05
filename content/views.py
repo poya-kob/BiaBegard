@@ -44,7 +44,6 @@ class DetailProduct(DetailView):
             visit_counter = cache.get(f'visit_counter:{pk}') + 1
             cache.set(f'visit_counter:{pk}', visit_counter)
             cache.set(f'visited_ip:{pk}', visited_ip)
-
         return super().get(request, *args, **kwargs)
 
 

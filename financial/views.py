@@ -6,7 +6,7 @@ from .forms import UserNewOrderForm
 from .models import Carts, CartItems
 
 
-@login_required()
+@login_required(login_url='/#loginModal')
 def add_user_order(request):
     new_order_form = UserNewOrderForm(request.POST or None)
     if new_order_form.is_valid():
@@ -27,13 +27,13 @@ def add_user_order(request):
     return redirect('/')
 
 
-@login_required()
+@login_required(login_url='/#loginModal')
 def delete_user_order(request):
     CartItems.objects.get(id=request.GET.get('id')).delete()
     return redirect('/')
 
 
-@login_required()
+@login_required(login_url='/#loginModal')
 def check_out_step1(request):
     cart_items = Carts.objects.filter(user_id=request.user.id).first()
     total_price = 0
@@ -46,16 +46,17 @@ def check_out_step1(request):
     return render(request, 'financial/check_to_pay.html', context)
 
 
-@login_required()
+@login_required(login_url='/#loginModal')
 def pay_page(request):
     items = None
     context = {}
+    cart = Carts.objects.get(user_id=request.user.id)
     if request.POST:
         cart_items = []
         for key, cart_item in request.POST.items():
             if key != 'csrfmiddlewaretoken':
                 cart_items.append(int(cart_item))
-        items = CartItems.objects.filter(status='pending')
+        items = cart.cart_items.filter(status='pending')
         items.update(is_selected=False)
         items = items.filter(id__in=cart_items)
         items.update(is_selected=True)
@@ -65,7 +66,7 @@ def pay_page(request):
         context['cart_items'] = items
         context['total_price'] = total_price
         return render(request, 'financial/pay_item.html', context)
-    items = CartItems.objects.filter(status='pending', is_selected=True)
+    items = cart.cart_items.filter(status='pending', is_selected=True)
     total_price = 0
     for item in items:
         total_price += item.total_price_product

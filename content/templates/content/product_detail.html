@@ -103,10 +103,17 @@
                                 <span class="clickable add-one icon-plus-sign-alt"></span>
                                 <span class="clickable remove-one icon-minus-sign-alt"></span>
                             </div>
-                            &nbsp;
+                            &nbsp;{% if user.is_authenticated %}
                             <button class="btn btn-danger pull-right"><i class="icon-shopping-cart"></i> اضافه به سبد
                                 خرید
                             </button>
+                        {% else %}
+                            <a class="btn btn-danger pull-right" href="#loginModal" role="button" data-toggle="modal"><i
+                                    class="icon-shopping-cart"></i>  ورود برای اضافه به سبد
+                                خرید
+                            </a>
+                        {% endif %}
+
                         </form>
                         <hr/>
                         <!--  ==========  -->
