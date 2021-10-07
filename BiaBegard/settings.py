@@ -178,4 +178,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_USERNAME")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 
+#celery
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/2'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Tehran'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
