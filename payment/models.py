@@ -20,3 +20,6 @@ class Invoice(models.Model):
 
     def __str__(self):
         return self.user.username
+    # def save(self, *args,**kwargs):
+    #     if  self.cart_items:
+    #         for item in self.cart_items.filter(is_selected=True,status='pending')
