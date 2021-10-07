@@ -6,7 +6,7 @@ from .forms import UserNewOrderForm
 from .models import Carts, CartItems
 
 
-@login_required(login_url='/#loginModal')
+@login_required()
 def add_user_order(request):
     new_order_form = UserNewOrderForm(request.POST or None)
     if new_order_form.is_valid():
@@ -19,21 +19,25 @@ def add_user_order(request):
             count = 1
         cart_item = cart.cart_items.filter(product_id=product_id, status="pending").first()
         if cart_item:
-            cart_item.qty += count
-            cart_item.save()
+            if cart_item.qty + count <= cart_item.product.inventory:
+                cart_item.qty += count
+                cart_item.save()
+            elif cart_item.product.inventory > 1:
+                cart_item.qty = cart_item.product.inventory
+                cart_item.save()
         else:
             cart.cart_items.create(product_id=product_id, qty=count)
 
     return redirect('/')
 
 
-@login_required(login_url='/#loginModal')
+@login_required()
 def delete_user_order(request):
     CartItems.objects.get(id=request.GET.get('id')).delete()
     return redirect('/')
 
 
-@login_required(login_url='/#loginModal')
+@login_required()
 def check_out_step1(request):
     cart_items = Carts.objects.filter(user_id=request.user.id).first()
     total_price = 0
@@ -46,7 +50,7 @@ def check_out_step1(request):
     return render(request, 'financial/check_to_pay.html', context)
 
 
-@login_required(login_url='/#loginModal')
+@login_required()
 def pay_page(request):
     items = None
     context = {}

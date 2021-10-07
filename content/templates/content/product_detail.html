@@ -83,9 +83,9 @@
                                 {{ products_detail.product_price }}
                             {% endif %}
                             <span class="stock">
-                                {% if products_detail.inventory %} <span class="btn btn-success"> موجود </span>
+                                {% if products_detail.inventory > 1 %} <span class="btn btn-success"> موجود </span>
 
-                                {% else %}<span class="btn btn-danger">تمام موجودی</span>{% endif %}
+                                {% else %}<span class="btn btn-danger">اتمام موجودی</span>{% endif %}
                             </span>
                         </div>
                     </div>
@@ -95,26 +95,32 @@
                         <!--  ==========  -->
                         <!--  = Add to cart form =  -->
                         <!--  ==========  -->
-                        <form action="{% url 'add_user_order' %}" method="post" class="form form-inline clearfix">
-                            {% csrf_token %}
-                            {{ order_form.product_id }}
-                            <div class="numbered">
-                                {{ order_form.count }}
-                                <span class="clickable add-one icon-plus-sign-alt"></span>
-                                <span class="clickable remove-one icon-minus-sign-alt"></span>
-                            </div>
-                            &nbsp;{% if user.is_authenticated %}
-                            <button class="btn btn-danger pull-right"><i class="icon-shopping-cart"></i> اضافه به سبد
-                                خرید
-                            </button>
-                        {% else %}
-                            <a class="btn btn-danger pull-right" href="#loginModal" role="button" data-toggle="modal"><i
-                                    class="icon-shopping-cart"></i>  ورود برای اضافه به سبد
-                                خرید
-                            </a>
-                        {% endif %}
+                        {% if products_detail.inventory > 1 %}
+                            <form action="{% url 'add_user_order' %}" method="post" class="form form-inline clearfix">
+                                {% csrf_token %}
+                                {{ order_form.product_id }}
+                                <div class="numbered">
+                                    {{ order_form.count }}
+                                    <span class="clickable add-one icon-plus-sign-alt"></span>
+                                    <span class="clickable remove-one icon-minus-sign-alt"></span>
+                                </div>
+                                &nbsp;{% if user.is_authenticated %}
+                                <button class="btn btn-danger pull-right"><i class="icon-shopping-cart"></i> اضافه به
+                                    سبد
+                                    خرید
+                                </button>
+                            {% else %}
+                                <a class="btn btn-danger pull-right" href="#loginModal" role="button"
+                                   data-toggle="modal"><i
+                                        class="icon-shopping-cart"></i> ورود برای اضافه به سبد
+                                    خرید
+                                </a>
+                            {% endif %}
 
-                        </form>
+                            </form>
+                        {% else %}
+                            <p class="danger">موجودی محصول به پایان رسیده</p>
+                        {% endif %}
                         <hr/>
                         <!--  ==========  -->
                         <!--  = Share buttons =  -->
