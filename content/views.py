@@ -32,20 +32,19 @@ class DetailProduct(DetailView):
         context['order_form'] = UserNewOrderForm(self.request.POST or None, initial={'product_id': self.kwargs['pk']})
         return context
 
-    # def get(self, request, *args, **kwargs):
-    #     ip = get_client_ip(request)
-    #     pk = kwargs['pk']
-    #     if not cache.get(f'visited_ip:{pk}'):
-    #         cache.set(f'visited_ip:{pk}', [])
-    #         cache.set(f'visit_counter:{pk}', 0)
-    #     visited_ip: list = cache.get(f'visited_ip:{pk}')
-    #     if ip not in visited_ip:
-    #         visited_ip.append(ip)
-    #         visit_counter = cache.get(f'visit_counter:{pk}') + 1
-    #         cache.set(f'visit_counter:{pk}', visit_counter)
-    #         cache.set(f'visited_ip:{pk}', visited_ip)
-    #
-    #     return super().get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        ip = get_client_ip(request)
+        pk = kwargs['pk']
+        if not cache.get(f'visited_ip:{pk}'):
+            cache.set(f'visited_ip:{pk}', [])
+            cache.set(f'visit_counter:{pk}', 0)
+        visited_ip: list = cache.get(f'visited_ip:{pk}')
+        if ip not in visited_ip:
+            visited_ip.append(ip)
+            visit_counter = cache.get(f'visit_counter:{pk}') + 1
+            cache.set(f'visit_counter:{pk}', visit_counter)
+            cache.set(f'visited_ip:{pk}', visited_ip)
+        return super().get(request, *args, **kwargs)
 
 
 class ProductSearch(ListView):
