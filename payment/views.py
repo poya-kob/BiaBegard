@@ -29,7 +29,13 @@ def payment_start(request):
         }
         cart = Carts.objects.filter(user_id=request.user.id).first()
         items = cart.cart_items.filter(status='pending', is_selected=True).values('id')
-        item_id = [iid['id'] for iid in items]
+        item_id = [item['id'] for item in items]
+        # for item in items:
+        #     item_id.append(item['id'])
+        #     if item.qty > item.product.inventory:
+        #         item.qty = item.product.inventory
+        #         item.save()
+
         record = Invoice(user_id=request.user.id, order_id=order_id, amount=int(amount))
         record.save()
         record.cart_items.add(*item_id)
