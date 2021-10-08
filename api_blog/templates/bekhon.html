@@ -1,0 +1,7 @@
+{% autoescape off %}
+    {{ blog.title }}
+
+{#    <a href="{ domain_name }} {% url 'blog-detail' blog.id %}" >لینک خبر</a>#}
+    http://{{ my_domain}}{% url 'blog-detail' blog.id %}
+
+{% endautoescape %}

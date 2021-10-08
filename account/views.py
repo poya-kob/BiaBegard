@@ -1,13 +1,13 @@
 from django.conf import settings
 from django.core.mail import send_mail
-from django.shortcuts import redirect ,HttpResponse
+from django.shortcuts import redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 
-from .models import Customers, Suppliers
+from .models import Customers, Suppliers, Subscribers
 from .forms import LoginForm, RegisterForm
 from verification_email_token_gen import account_activation_token
 
@@ -82,3 +82,10 @@ def email_activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+def register_subscriber(request):
+    if request.method == "POST":
+        email = request.POST.get('EMAIL')
+        Subscribers.objects.create(email=email)
+    return redirect('/')
