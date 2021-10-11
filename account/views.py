@@ -44,6 +44,7 @@ def register_page(request):
     if register_form.is_valid():
         username = register_form.cleaned_data.get('username')
         email = register_form.cleaned_data.get('email')
+
         phone = register_form.cleaned_data.get('phone')
         password = register_form.cleaned_data.get('password')
 
@@ -68,9 +69,9 @@ def register_page(request):
                                           is_active=True)
     # todo show success message and redirect to the next url
     return redirect('/')
+  
 
-
-def email_activate(request, uidb64, token):
+def email_activate(request, uidb64, token ):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = Suppliers.objects.get(pk=uid)
