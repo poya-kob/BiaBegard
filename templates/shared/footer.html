@@ -36,22 +36,19 @@
                         <p>این بخشی از یک نوشتار آزمایشی صرفا برای پر کردن این ناحیه است.</p>
                         <!-- Begin MailChimp Signup Form -->
                         <div id="mc_embed_signup">
-                            <form action="http://proteusthemes.us4.list-manage1.com/subscribe/post?u=ea0786485977f5ec8c9283d5c&amp;id=5dad3f35e9"
-                                  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                  class="validate form form-inline" target="_blank" novalidate>
+                            <form id="subscribe" method="post" action="{% url 'register_subscriber' %}">
                                 <div class="mc-field-group">
                                     <input type="email" value="" placeholder="آدرس ایمیلتان را وارد کنید"
                                            name="EMAIL"
                                            class="required email" id="mce-EMAIL">
-                                    <input type="submit" value="ارسال" name="subscribe" id="mc-embedded-subscribe"
-                                           class="btn btn-primary">
+                                    <input type="submit" value="ارسال" name="subscribe" class="btn btn-primary">
                                 </div>
-                                <div id="mce-responses" class="clear">
-                                    <div class="response" id="mce-error-response" style="display:none"></div>
-                                    <div class="response" id="mce-success-response" style="display:none"></div>
-                                </div>
-
+                                {% csrf_token %}
                             </form>
+                            <div id="mce-responses" class="clear">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>
                         </div>
                         <!--End mc_embed_signup-->
                     </div>

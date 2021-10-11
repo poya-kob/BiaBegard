@@ -19,7 +19,6 @@ class CommonUsersField(User):
     address = models.ForeignKey(Addresses, on_delete=models.CASCADE, null=True)
     phone = models.PositiveIntegerField(null=True)
 
-
     class Meta:
         abstract = True
 
@@ -32,8 +31,19 @@ class Suppliers(CommonUsersField):
         verbose_name_plural = "فروشنده ها"
 
 
-
 class Customers(CommonUsersField):
     class Meta:
         verbose_name = "مشتری"
         verbose_name_plural = "مشتری ها"
+
+
+class Subscribers(models.Model):
+    email = models.EmailField(verbose_name="ایمیل")
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "مشترک"
+        verbose_name_plural = "مشترکین"
+
+    def __str__(self):
+        return self.email
