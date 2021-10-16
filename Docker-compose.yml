@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+  django_web:
+    build: .
+    command: >
+      ash -c "python manage.py migrate &&  gunicorn BiaBegard.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static:/app/static
+      - media:/app/static_cdn/media_root
+      - .:/app/
+
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres_db
+  postgres_db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=biabegard
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/app/static
+      - media:/app/static_cdn/media_root
+    ports:
+      - 8000:80
+    depends_on:
+      - django_web
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_val:/data
+  celery:
+
+    restart: always
+    build:
+      context: .
+#      dockerfile: dokckerfile-name-alternative
+#      args:
+#        name : ashkan
+    command: >
+      ash -c "touch celery.log &&  celery -A BiaBegard worker -l info &> celery.log"
+    volumes:
+      - .:/app
+    depends_on:
+      - django_web
+      - redis
+volumes:
+  postgres_data:
+  static:
+  media:
+  redis_val:
