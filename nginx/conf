@@ -1,5 +1,5 @@
 upstream BiaBegard {
-    server django_web:8000;
+    server django_web_poya:8000;
 }
 
 server {
