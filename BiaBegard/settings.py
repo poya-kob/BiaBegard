@@ -27,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.environ.get('DEBUG')
-DEBUG =  os.environ.get('DEBUG')
+# DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG')
 
-#ALLOWED_HOSTS = ["localhost", "127.0.0.1","147.135.173.227", "django_web"]
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1","147.135.173.227", "django_web"]
 ALLOWED_HOSTS = ["*"]
-MY_DOMAIN = '127.0.0.1:8000'
+MY_DOMAIN = os.environ.get('DOMAIN')
 # Application definition
 
 INSTALLED_APPS = [
