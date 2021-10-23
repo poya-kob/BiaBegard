@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.conf import settings
 
-from .tasks import async_send_email
+from BiaBegard.tasks import async_send_email
 from .models import Blog
 from account.models import Subscribers
 

@@ -17,7 +17,7 @@ class Addresses(models.Model):
 class CommonUsersField(User):
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر کاربر", null=True, blank=True)
     address = models.ForeignKey(Addresses, on_delete=models.CASCADE, null=True)
-    phone = models.PositiveIntegerField(null=True)
+    phone = models.PositiveBigIntegerField(null=True)
 
     class Meta:
         abstract = True
