@@ -13,7 +13,7 @@
             <!--  = Logo =  -->
             <!--  ==========  -->
             <div class="span7">
-                <a class="brand" href="index.html">
+                <a class="brand" href="/">
                     <img src="{% static "images/logo.png" %}" width="48" height="48" alt="Webmarket-Logo"/>
                     <span class="pacifico">Webmarket</span>
                     <span class="tagline">قالب فروشگاهی HTML قدرتمند</span>
@@ -26,28 +26,7 @@
             <div class="span5">
                 <div class="topmost-line">
                     <div class="lang-currency">
-                        <div class="dropdown js-selectable-dropdown">
-                            <a data-toggle="dropdown" class="selected" href="#"><span class="js-change-text"><i
-                                    class="famfamfam-flag-gb"></i> انگلیسی (EN)</span> <b class="caret"></b></a>
-                            <!-- for all available country flags look the styles in lib/components/_flags.scss -->
-                            <ul class="dropdown-menu js-possibilities" role="menu" aria-labelledby="dLabel">
-                                <li><a href="#"><i class="famfamfam-flag-gb"></i> انگلیسی (EN)</a></li>
-                                <li><a href="#"><i class="famfamfam-flag-si"></i> اسلوانیایی (SI)</a></li>
-                                <li><a href="#"><i class="famfamfam-flag-de"></i> آلمانی (DE)</a></li>
-                                <li><a href="#"><i class="famfamfam-flag-fr"></i> فرانسوی (FR)</a></li>
-                                <li><a href="#"><i class="famfamfam-flag-es"></i> اسپانیولی (ES)</a></li>
-                            </ul>
-                        </div>
-                        <div class="dropdown js-selectable-dropdown">
-                            <a data-toggle="dropdown" class="selected" href="#"><span
-                                    class="js-change-text">USD ($)</span> <b class="caret"></b></a>
-                            <ul class="dropdown-menu js-possibilities" role="menu" aria-labelledby="dLabel">
-                                <li><a href="#">USD ($)</a></li>
-                                <li><a href="#">EUR (€)</a></li>
-                                <li><a href="#">YEN (¥)</a></li>
-                                <li><a href="#">GBP (£)</a></li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
                 <div class="top-right">
@@ -99,13 +78,7 @@
 
                             <li><a href={% url 'products' %}> محصولات </a></li>
                             <li class="dropdown">
-                                <a href="blog.html" class="dropdown-toggle">بلاگ <b class="caret"></b> </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="blog.html">قالب بندی پیش فرض</a></li>
-                                    <li><a href="blog-single.html">تک نوشته</a></li>
-                                    <li><a href="blog-search.html">نتایج جستجو</a></li>
-                                    <li><a href="404.html">صفحه 404</a></li>
-                                </ul>
+                                <a href="{% url "blog-list" %}" class="dropdown-toggle">API بلاگ </a>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle"> دسته بندی <b class="caret"></b> </a>
