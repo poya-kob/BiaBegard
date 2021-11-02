@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .views import header, footer, home_page
+from site_setting.views import about_us
 
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path('api/', include("api_blog.urls")),
     path('header', header, name='header'),
     path('footer', footer, name='footer'),
+    path('about_us/', about_us, name='about_us'),
     path('api-auth/', include('rest_framework.urls'))
 ]
 

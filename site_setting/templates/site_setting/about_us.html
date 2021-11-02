@@ -1,0 +1,40 @@
+{% extends "shared/_MainLayout.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="push-up blocks-spacer">
+            <div class="row">
+                <section class="span9">
+
+                    <!--  ==========  -->
+                    <!--  = Title =  -->
+                    <!--  ==========  -->
+                    <div class="underlined push-down-20">
+                        <h3><span class="light">چند کلمه</span> درباره ما</h3>
+                    </div> <!-- /title -->
+
+                    <section>
+
+                        <div class="row-fluid push-down-20" id="jaka">
+                            <div class="span4">
+                                <a href="#"><img src="{{ setting.logo.url }}" alt="person" width="550"
+                                                 height="660"/></a>
+                            </div>
+                            <div class="span4">
+                                <p>{{ setting.about_us|safe }}</p>
+                            </div>
+
+                        </div>
+
+
+                    </section>
+
+
+                    <hr/>
+
+                </section> <!-- /main content -->
+
+            </div>
+        </div>
+    </div> <!-- /container -->
+{% endblock %}
