@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'api_blog',
     'rest_framework',
     'comment',
-    'site_setting'
+    'site_setting',
+    'iran_zone',
 ]
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads"
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'account.middleware.UserObject',
 ]
 
 ROOT_URLCONF = 'BiaBegard.urls'
@@ -86,7 +88,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'site_setting.context_processors.context_setting'
+                'site_setting.context_processors.context_setting',
 
             ],
         },

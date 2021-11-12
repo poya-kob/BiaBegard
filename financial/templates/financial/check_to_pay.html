@@ -31,7 +31,7 @@
             <!--  ==========  -->
             <!--  = Selected Items =  -->
             <!--  ==========  -->
-            <form method="post" action="{% url 'pay_page' %}">
+            <form method="post" action="{% url 'select-cart-item' %}">
                 {% csrf_token %}
                 <table class="table table-items">
                     <thead>

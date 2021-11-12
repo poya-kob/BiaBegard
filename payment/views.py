@@ -34,8 +34,9 @@ def payment_start(request):
         #     if item.qty > item.product.inventory:
         #         item.qty = item.product.inventory
         #         item.save()
-
-        record = Invoice(user_id=request.user.id, order_id=order_id, amount=int(amount))
+        selected_address = request.user_obj.address.get(is_selected=True)
+        record = Invoice(user_id=request.user.id, order_id=order_id, amount=int(amount),
+                         address_id=selected_address.id)
         record.save()
         record.cart_items.add(*item_id)
         record.save()
@@ -91,9 +92,7 @@ def payment_return(request):
                         items = payment.cart_items.all()
                         items.update(status="paid")
                         for item in items:
-                            print(f'1 {item.product.inventory}')
                             item.product.inventory -= item.qty
-                            print(f'2 {item.product.inventory}')
                             item.product.save()
 
                     return render(request, 'payment/error.html', {'txt': result['message']})
