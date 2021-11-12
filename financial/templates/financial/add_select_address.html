@@ -1,0 +1,174 @@
+{% extends "shared/_MainLayout.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <!--  ==========  -->
+            <!--  = Main content =  -->
+            <!--  ==========  -->
+            <section class="span12">
+                <div class="checkout-container">
+                    <div class="row">
+                        <div class="span10 offset1">
+                            <!--  ==========  -->
+                            <div class="checkout-steps">
+                                <div class="clearfix">
+                                    <div class="step done">
+                                        <div class="step-badge"><i class="icon-ok"></i></div>
+                                        <a href="checkout-step-1.html">سبد خرید</a>
+                                    </div>
+                                    <div class="step active">
+                                        <div class="step-badge">2</div>
+                                        آدرس ارسال
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-badge">2</div>
+                                        شیوه پرداخت
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-badge">4</div>
+                                        تایید و پرداخت
+                                    </div>
+                                </div>
+                            </div> <!-- /steps -->
+
+                            <!--  ==========  -->
+                            <!--  = Shipping addr form =  -->
+                            <!--  ==========  -->
+                            {% if request.user_obj.address.all %}
+                                <form id="select_address" action="{% url 'pay_page' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {% for address in request.user_obj.address.all %}
+                                                <span>
+                                            <div class="col-md-3">
+                                            <div style="max-width: 18rem;">
+                                                <div><input {% if forloop.last %}checked{% endif %} type="radio"
+                                                            name="address"
+                                                            value="{{ address.id }}">
+                                                    آدرس {{ forloop.counter }}
+                                                </div>
+                                                <div>
+                                                    <h5>استان {{ address.province.name }}</h5>
+                                                    <p>{{ address.full_address }}</p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                    </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <p> هیچ آدرسی ثبت نشده</p>
+                            {% endif %}
+                            <hr>
+                            <form id="create_address" action="{% url 'select_address' %}" method="post"
+                                  class="form-horizontal form-checkout">
+                                {% csrf_token %}
+                                <!--  ==========  -->
+                                <!--  = استان =  -->
+                                <!--  ==========  -->
+                                <div class="control-group">
+                                    <label class="control-label" for="country">استان<span
+                                            class="red-clr bold">*</span></label>
+                                    <div class="controls">
+                                        <select name="ostan" id="ostan" class="as-span4">
+                                            <option disabled selected="true">انتخاب استان</option>
+                                            {% for ostan in all_ostan %}
+                                                <option value="{{ ostan.id }}">{{ ostan.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- /استان -->
+                                <!--  ==========  -->
+                                <!--  = شهرستان =  -->
+                                <!--  ==========  -->
+                                <div class="control-group">
+                                    <label class="control-label" for="country">شهرستان<span
+                                            class="red-clr bold">*</span></label>
+                                    <div class="controls">
+                                        <select name="shahrestan" id="shahrestan" class="as-span4">
+                                            <option disabled selected="true">انتخاب شهرستان</option>
+                                            {% for shahrestan in all_shahrestan %}
+                                                <option data-ostanId="{{ shahrestan.ostan.id }}"
+                                                        value="{{ shahrestan.id }}">{{ shahrestan.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- /شهرستان -->
+                                <!--  ==========  -->
+                                <!--  = شهر =  -->
+                                <!--  ==========  -->
+                                <div class="control-group">
+                                    <label class="control-label" for="country">شهر</label>
+                                    <div class="controls">
+                                        <select name="shahr" id="shahr" class="as-span4">
+                                            <option disabled selected="true">انتخاب شهر</option>
+                                            {% for shahr in all_shahr %}
+                                                <option data-ostanId="{{ shahr.ostan.id }}"
+                                                        data-shahrestanId="{{ shahr.shahrestan.id }}"
+                                                        value="{{ shahr.id }}">{{ shahr.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- /شهر -->
+                                <!--  ==========  -->
+                                <!--  = روستا =  -->
+                                <!--  ==========  -->
+                                <div class="control-group">
+                                    <label class="control-label" for="country">روستا</label>
+                                    <div class="controls">
+                                        <select name="rosta" id="rosta" class="as-span4">
+                                            <option disabled selected="true">انتخاب روستا</option>
+                                            {% for rosta in all_rosta %}
+                                                <option data-ostanId="{{ rosta.ostan.id }}"
+                                                        data-shahrestanId="{{ rosta.shahrestan.id }}"
+                                                        value="{{ rosta.id }}">{{ rosta.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- /روستا -->
+                                <div class="control-group">
+                                    <label class="control-label" for="zipCode">کد پستی<span
+                                            class="red-clr bold">*</span></label>
+                                    <div class="controls">
+                                        <input type="text" id="zipCode" name="zipCode" class="span4" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="fullAddress">آدرس کامل<span
+                                            class="red-clr bold">*</span></label>
+                                    <div class="controls">
+                                        <input type="text" id="fullAddress" name="fullAddress" class="span4" required>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success higher bold" type="submit">تبت آدرس جدید</button>
+                            </form>
+                            <hr/>
+
+                            <p class="right-align">
+                                {% if request.user_obj %}
+                                    <button type="submit" id="select_next" class="btn btn-primary higher bold"> انتخاب
+                                        آدرس
+                                        و ادامه
+                                    </button>
+                                {% else %}
+                                    <button disabled class="btn btn-primary higher bold"> انتخاب
+                                        آدرس
+                                        و ادامه
+                                    </button>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </section> <!-- /main content -->
+        </div>
+    </div> <!-- /container -->
+
+
+{% endblock %}

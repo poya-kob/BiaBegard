@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from financial.models import CartItems
+from account.models import Addresses
 
 
 class Invoice(models.Model):
@@ -16,10 +17,8 @@ class Invoice(models.Model):
     bank_track_id = models.TextField(default=0000)
     status = models.IntegerField(default=0)
 
+    address = models.ForeignKey(Addresses, on_delete=models.SET_NULL, null=True)
     cart_items = models.ManyToManyField(CartItems, verbose_name="کارت آیتم ها")
 
     def __str__(self):
         return self.user.username
-    # def save(self, *args,**kwargs):
-    #     if  self.cart_items:
-    #         for item in self.cart_items.filter(is_selected=True,status='pending')

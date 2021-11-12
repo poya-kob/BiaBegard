@@ -1,9 +1,12 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
+from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
 from .forms import UserNewOrderForm
 from .models import Carts, CartItems
+from account.models import Suppliers, Customers
+from iran_zone.models import Ostan, Shahrestan, Shahr, Dehestan
 
 
 @login_required()
@@ -40,6 +43,7 @@ def delete_user_order(request):
 @login_required()
 def check_out_step1(request):
     cart_items = Carts.objects.filter(user_id=request.user.id).first()
+    request.session['red_carpet'] = True
     total_price = 0
     for item in cart_items.cart_items.filter(status='pending'):
         total_price += item.total_price_product
@@ -52,11 +56,57 @@ def check_out_step1(request):
 
 @login_required()
 def pay_page(request):
-    items = None
+    if request.method == "POST":
+        address_id = request.POST.get('address')
+        request.user_obj.address.all().update(is_selected=False)
+        got_add = request.user_obj.address.get(id=int(address_id))
+        got_add.is_selected = True
+        got_add.save()
+
     context = {}
     cart = Carts.objects.get(user_id=request.user.id)
-    if request.POST:
+    items = cart.cart_items.filter(status='pending', is_selected=True)
+    total_price = 0
+    for item in items:
+        total_price += item.total_price_product
+    context['cart_items'] = items
+    context['total_price'] = total_price
+    return render(request, 'financial/pay_item.html', context)
+
+
+class SelectAddress(View):
+    context = {
+        'all_ostan': Ostan.objects.all(),
+        'all_shahrestan': Shahrestan.objects.all(),
+        'all_shahr': Shahr.objects.all(),
+        'all_rosta': Dehestan.objects.all(),
+        'user_obj': None
+    }
+
+    def get(self, request):
+        return render(request, "financial/add_select_address.html", self.context)
+
+    def post(self, request):
+        ostan = request.POST.get("ostan")
+        shahrestan = request.POST.get("shahrestan")
+        zip_code = request.POST.get("zipCode")
+        full_address = request.POST.get("fullAddress")
+        rosta = None
+        shahr = None
+        shahr = request.POST.get("shahr", None)
+        rosta = request.POST.get("rosta", None)
+        request.user_obj.address.create(province_id=ostan, township_id=shahrestan, city_id=shahr, village=rosta,
+                                        zip_code=zip_code, full_address=full_address)
+        return render(request, "financial/add_select_address.html", self.context)
+
+
+class GetSelectedCartItems(View):
+    def post(self, request):
+        if 'red_carpet' not in request.session:
+            return redirect(reverse('check_step1'))
+        cart = Carts.objects.get(user_id=request.user.id)
         cart_items = []
+        del request.session['red_carpet']
         for key, cart_item in request.POST.items():
             if key != 'csrfmiddlewaretoken':
                 cart_items.append(int(cart_item))
@@ -67,13 +117,4 @@ def pay_page(request):
         total_price = 0
         for item in items:
             total_price += item.total_price_product
-        context['cart_items'] = items
-        context['total_price'] = total_price
-        return render(request, 'financial/pay_item.html', context)
-    items = cart.cart_items.filter(status='pending', is_selected=True)
-    total_price = 0
-    for item in items:
-        total_price += item.total_price_product
-    context['cart_items'] = items
-    context['total_price'] = total_price
-    return render(request, 'financial/pay_item.html', context)
+        return redirect(reverse('select_address'))
