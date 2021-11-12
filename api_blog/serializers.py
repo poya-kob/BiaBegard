@@ -1,4 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
+from rest_framework import serializers
+
 from .models import Blog, BlogCategory, Comments
 
 
@@ -16,10 +18,13 @@ class BlogListSerializer(HyperlinkedModelSerializer):
         exclude = ['active', 'text']
 
 
-class CommentsSerializer(ModelSerializer):
+class CommentsSerializer(HyperlinkedModelSerializer):
+    user = serializers.StringRelatedField()
+    # blog = serializers.StringRelatedField()
+
     class Meta:
         model = Comments
-        exclude = ['id']
+        fields = "__all__"
 
 
 class BlogDetailSerializer(ModelSerializer):

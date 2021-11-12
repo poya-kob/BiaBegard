@@ -14,9 +14,9 @@
             <!--  ==========  -->
             <div class="span7">
                 <a class="brand" href="/">
-                    <img src="{% static "images/logo.png" %}" width="48" height="48" alt="Webmarket-Logo"/>
-                    <span class="pacifico">Webmarket</span>
-                    <span class="tagline">قالب فروشگاهی HTML قدرتمند</span>
+                    <img src="{{ setting.logo.url }}" width="48" height="48" alt="Webmarket-Logo"/>
+                    <span class="pacifico">{{ setting.title }}</span>
+                    {#                    <span class="tagline">قالب فروشگاهی HTML قدرتمند</span>#}
                 </a>
             </div>
 
@@ -88,7 +88,7 @@
                                 </ul>
 
                             </li>
-                            <li><a href="about-us.html">درباره ما</a></li>
+                            <li><a href="{% url 'about_us' %}">درباره ما</a></li>
                             <li><a href="{% url 'contact-us' %}">تماس با ما</a></li>
                         </ul>
 
